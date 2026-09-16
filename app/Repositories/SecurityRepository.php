@@ -25,11 +25,6 @@ class SecurityRepository
         return UserLoginLog::query()->where('status', 'BLOCKED')->count();
     }
 
-    public function recentBlocked(int $limit = 6): Collection
-    {
-        return UserLoginLog::query()->where('status', 'BLOCKED')->orderBy('created_at', 'desc')->limit($limit)->get();
-    }
-
     public function activeUsers(): Collection
     {
         return User::query()

@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        View::composer(['layouts.app', 'components.layouts.app', 'auth.login', 'components.layouts.guest'], function ($view) {
+        View::composer(['components.layouts.app', 'auth.login', 'components.layouts.guest'], function ($view) {
             $view->with('currentIp', VerifyUserSessionAndIp::clientIp(request()));
         });
     }

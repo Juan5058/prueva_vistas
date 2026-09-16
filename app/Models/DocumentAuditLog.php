@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasPublicKey;
+use App\Models\Concerns\LogicalSoftDeletes;
 use MongoDB\Laravel\Eloquent\Model;
 
 class DocumentAuditLog extends Model
 {
-    use HasPublicKey;
+    use HasPublicKey, LogicalSoftDeletes;
 
     protected $collection = 'document_audit_logs';
 
@@ -16,6 +17,8 @@ class DocumentAuditLog extends Model
         'document_id',
         'action',
         'ip_address',
+        'is_deleted',
+        'deleted_at',
     ];
 
     protected function casts(): array
@@ -23,6 +26,8 @@ class DocumentAuditLog extends Model
         return [
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
+            'is_deleted' => 'boolean',
+            'deleted_at' => 'datetime',
         ];
     }
 
@@ -33,7 +38,7 @@ class DocumentAuditLog extends Model
 
     public function document()
     {
-        return $this->belongsTo(ArchiveDocument::class, 'document_id');
+        return $this->belongsTo(Document::class, 'document_id');
     }
 
     public function actionLabel(): string

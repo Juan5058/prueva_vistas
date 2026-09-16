@@ -32,6 +32,11 @@
                             <x-icon-action href="{{ route('documents.show', $document->getKey()) }}" tooltip="Ver detalle" variant="info">
                                 <x-icon name="eye" class="w-4 h-4" />
                             </x-icon-action>
+                            @if(auth()->user()->hasPermission('documents.edit'))
+                                <x-icon-action href="{{ route('documents.edit', $document->getKey()) }}" tooltip="Editar">
+                                    <x-icon name="pencil" class="w-4 h-4" />
+                                </x-icon-action>
+                            @endif
                             @if(auth()->user()->hasPermission('documents.download'))
                                 <x-icon-action href="{{ route('documents.download', $document->getKey()) }}" tooltip="Descargar PDF">
                                     <x-icon name="download" class="w-4 h-4" />

@@ -26,7 +26,7 @@ class AuthenticationTest extends MongoTestCase
     {
         $this->seed();
 
-        $this->post('/login', [
+        $this->from('/login')->post('/login', [
             'email' => 'admin@trd.gob',
             'password' => 'admin123',
         ])->assertRedirect('/');

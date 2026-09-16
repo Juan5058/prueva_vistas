@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasPublicKey;
+use App\Models\Concerns\LogicalSoftDeletes;
 use MongoDB\Laravel\Eloquent\Model;
 
 class TrdImport extends Model
 {
-    use HasPublicKey;
+    use HasPublicKey, LogicalSoftDeletes;
 
     protected $collection = 'trd_imports';
 
@@ -18,12 +19,16 @@ class TrdImport extends Model
         'total_rows',
         'processed_rows',
         'error_log',
+        'is_deleted',
+        'deleted_at',
     ];
 
     protected function casts(): array
     {
         return [
             'error_log' => 'array',
+            'is_deleted' => 'boolean',
+            'deleted_at' => 'datetime',
         ];
     }
 

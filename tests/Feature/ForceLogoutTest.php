@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\UserLoginLog;
+use App\Services\UserService;
 use App\Support\RoleCatalog;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\MongoTestCase;
@@ -50,7 +51,7 @@ class ForceLogoutTest extends MongoTestCase
             ->get('/seguridad/sesiones')
             ->assertOk();
 
-        app(\App\Services\UserService::class)->forceLogout(
+        app(UserService::class)->forceLogout(
             $target,
             '127.0.0.1',
             'PHPUnit',

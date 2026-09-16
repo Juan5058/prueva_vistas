@@ -7,7 +7,17 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900 antialiased" x-data="{ inventory: true, security: true, ipModal: false }">
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased" x-data="{
+    inventory: true,
+    security: true,
+    analytics: true,
+    ipModal: false,
+    collapsed: localStorage.getItem('trd.sidebar.collapsed') === '1',
+    toggleSidebar() {
+        this.collapsed = !this.collapsed;
+        localStorage.setItem('trd.sidebar.collapsed', this.collapsed ? '1' : '0');
+    }
+}">
 @php
     $user = auth()->user();
     $nav = request()->route()?->getName() ?? '';
@@ -15,12 +25,21 @@
     $isProceedings = str_starts_with($nav, 'proceedings.');
     $isDocuments = str_starts_with($nav, 'documents.');
     $isUsers = str_starts_with($nav, 'users.');
+    $isReports = str_starts_with($nav, 'reports.');
     $simulated = session('simulated_ip');
     $currentIp = $currentIp ?? \App\Http\Middleware\VerifyUserSessionAndIp::clientIp(request());
+    $navClass = function (bool $active) {
+        return $active
+            ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30'
+            : 'text-slate-300 hover:bg-slate-800';
+    };
 @endphp
 <div class="min-h-screen flex flex-col">
     <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between sticky top-0 z-30">
         <div class="flex items-center gap-4">
+            <button type="button" @click="toggleSidebar()" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100" title="Plegar menú">
+                <x-icon name="panel" class="w-4 h-4" />
+            </button>
             <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span class="text-xs font-semibold text-slate-700 tracking-tight">SISTEMA TRD EN LÍNEA</span>
@@ -59,74 +78,96 @@
     </header>
 
     <div class="flex-1 flex">
-        <aside class="w-64 bg-slate-900 text-slate-200 min-h-[calc(100vh-4rem)] flex flex-col border-r border-slate-800">
-            <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white">
+        <aside class="bg-slate-900 text-slate-200 min-h-[calc(100vh-4rem)] flex flex-col border-r border-slate-800 transition-all duration-200"
+               :class="collapsed ? 'w-[4.5rem]' : 'w-64'">
+            <div class="p-4 border-b border-slate-800 flex items-center gap-3" :class="collapsed && 'justify-center'">
+                <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shrink-0">
                     <x-icon name="book" class="w-5 h-5" />
                 </div>
-                <div>
+                <div x-show="!collapsed" x-cloak>
                     <h1 class="font-semibold text-sm tracking-wide text-white leading-tight">TRD & GESTIÓN</h1>
                     <p class="text-[11px] text-slate-400 font-medium">Inventario Documental</p>
                 </div>
             </div>
             <nav class="flex-1 p-3 space-y-1.5 overflow-y-auto">
-                <a href="{{ route('dashboard') }}" wire:navigate class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ $nav === 'dashboard' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
-                    <x-icon name="dashboard" class="w-4 h-4" /> Dashboard Limpio
+                <a href="{{ route('dashboard') }}" wire:navigate title="Dashboard Limpio" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ $nav === 'dashboard' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}" :class="collapsed && 'justify-center px-2'">
+                    <x-icon name="dashboard" class="w-4 h-4 shrink-0" />
+                    <span x-show="!collapsed" x-cloak>Dashboard Limpio</span>
                 </a>
 
-                <button type="button" @click="inventory = !inventory" class="w-full flex items-center justify-between px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <button type="button" x-show="!collapsed" x-cloak @click="inventory = !inventory" class="w-full flex items-center justify-between px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
                     <span>Inventario y TRD</span>
                     <span x-text="inventory ? '−' : '+'"></span>
                 </button>
-                <div x-show="inventory" x-cloak class="space-y-1">
+                <div x-show="collapsed || inventory" x-cloak class="space-y-1">
                     @if($user->hasPermission('trd.view'))
-                        <a href="{{ route('trd.index') }}" wire:navigate class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $isTrd ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30' : 'text-slate-300 hover:bg-slate-800' }}">
-                            <x-icon name="file" class="w-4 h-4 text-slate-400" /> Estructuras TRD
+                        <a href="{{ route('trd.index') }}" wire:navigate title="Estructuras TRD" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isTrd) }}" :class="collapsed && 'justify-center px-2'">
+                            <x-icon name="file" class="w-4 h-4 text-slate-400 shrink-0" />
+                            <span x-show="!collapsed" x-cloak>Estructuras TRD</span>
                         </a>
                     @endif
                     @if($user->hasPermission('proceedings.view'))
-                        <a href="{{ route('proceedings.index') }}" wire:navigate class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $isProceedings ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30' : 'text-slate-300 hover:bg-slate-800' }}">
-                            <x-icon name="folder" class="w-4 h-4 text-slate-400" /> Expedientes
+                        <a href="{{ route('proceedings.index') }}" wire:navigate title="Expedientes" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isProceedings) }}" :class="collapsed && 'justify-center px-2'">
+                            <x-icon name="folder" class="w-4 h-4 text-slate-400 shrink-0" />
+                            <span x-show="!collapsed" x-cloak>Expedientes</span>
                         </a>
                     @endif
                     @if($user->hasPermission('documents.view'))
-                        <a href="{{ route('documents.index') }}" wire:navigate class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $isDocuments ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30' : 'text-slate-300 hover:bg-slate-800' }}">
-                            <x-icon name="file" class="w-4 h-4 text-slate-400" /> Documentos
+                        <a href="{{ route('documents.index') }}" wire:navigate title="Documentos" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isDocuments) }}" :class="collapsed && 'justify-center px-2'">
+                            <x-icon name="file" class="w-4 h-4 text-slate-400 shrink-0" />
+                            <span x-show="!collapsed" x-cloak>Documentos</span>
                         </a>
                     @endif
                     @if($user->hasPermission('trd.import'))
-                        <a href="{{ route('trd.import') }}" wire:navigate class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $nav === 'trd.import' ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30' : 'text-slate-300 hover:bg-slate-800' }}">
-                            <x-icon name="upload" class="w-4 h-4 text-slate-400" /> Carga Masiva TRD
+                        <a href="{{ route('trd.import') }}" wire:navigate title="Carga Masiva TRD" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($nav === 'trd.import') }}" :class="collapsed && 'justify-center px-2'">
+                            <x-icon name="upload" class="w-4 h-4 text-slate-400 shrink-0" />
+                            <span x-show="!collapsed" x-cloak>Carga Masiva TRD</span>
                         </a>
                     @endif
                 </div>
 
-                <button type="button" @click="security = !security" class="w-full flex items-center justify-between px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                @if($user->hasPermission('reports.view'))
+                    <button type="button" x-show="!collapsed" x-cloak @click="analytics = !analytics" class="w-full flex items-center justify-between px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                        <span>Analítica</span>
+                        <span x-text="analytics ? '−' : '+'"></span>
+                    </button>
+                    <div x-show="collapsed || analytics" x-cloak class="space-y-1">
+                        <a href="{{ route('reports.index') }}" wire:navigate title="Reportes PDF" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isReports) }}" :class="collapsed && 'justify-center px-2'">
+                            <x-icon name="chart" class="w-4 h-4 text-slate-400 shrink-0" />
+                            <span x-show="!collapsed" x-cloak>Reportes PDF</span>
+                        </a>
+                    </div>
+                @endif
+
+                <button type="button" x-show="!collapsed" x-cloak @click="security = !security" class="w-full flex items-center justify-between px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
                     <span>Seguridad & Sesiones</span>
                     <span x-text="security ? '−' : '+'"></span>
                 </button>
-                <div x-show="security" x-cloak class="space-y-1">
+                <div x-show="collapsed || security" x-cloak class="space-y-1">
                     @if($user->hasPermission('security.view_sessions'))
-                        <a href="{{ route('security.sessions') }}" wire:navigate class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $nav === 'security.sessions' ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30' : 'text-slate-300 hover:bg-slate-800' }}">
-                            <x-icon name="activity" class="w-4 h-4 text-slate-400" /> Monitoreo de Sesiones
+                        <a href="{{ route('security.sessions') }}" wire:navigate title="Monitoreo de Sesiones" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($nav === 'security.sessions') }}" :class="collapsed && 'justify-center px-2'">
+                            <x-icon name="activity" class="w-4 h-4 text-slate-400 shrink-0" />
+                            <span x-show="!collapsed" x-cloak>Monitoreo de Sesiones</span>
                         </a>
-                        <a href="{{ route('security.logs') }}" wire:navigate class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $nav === 'security.logs' ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30' : 'text-slate-300 hover:bg-slate-800' }}">
-                            <x-icon name="shield" class="w-4 h-4 text-slate-400" /> Logs y Auditoría IP
+                        <a href="{{ route('security.logs') }}" wire:navigate title="Logs y Auditoría IP" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($nav === 'security.logs') }}" :class="collapsed && 'justify-center px-2'">
+                            <x-icon name="shield" class="w-4 h-4 text-slate-400 shrink-0" />
+                            <span x-show="!collapsed" x-cloak>Logs y Auditoría IP</span>
                         </a>
                     @endif
                     @if($user->hasPermission('users.view'))
-                        <a href="{{ route('users.index') }}" wire:navigate class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $isUsers ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30' : 'text-slate-300 hover:bg-slate-800' }}">
-                            <x-icon name="users" class="w-4 h-4 text-slate-400" /> Usuarios y Roles RBAC
+                        <a href="{{ route('users.index') }}" wire:navigate title="Usuarios y Roles RBAC" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isUsers) }}" :class="collapsed && 'justify-center px-2'">
+                            <x-icon name="users" class="w-4 h-4 text-slate-400 shrink-0" />
+                            <span x-show="!collapsed" x-cloak>Usuarios y Roles RBAC</span>
                         </a>
                     @endif
                 </div>
             </nav>
-            <div class="p-3 border-t border-slate-800 bg-slate-950/40 text-[11px] text-slate-400 flex items-center justify-between">
+            <div class="p-3 border-t border-slate-800 bg-slate-950/40 text-[11px] text-slate-400 flex items-center" :class="collapsed ? 'justify-center' : 'justify-between'">
                 <span class="flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    MongoDB 7 + Redis
+                    <span x-show="!collapsed" x-cloak>MongoDB 7 + Redis</span>
                 </span>
-                <span class="text-[10px] font-mono bg-slate-800 px-1.5 py-0.5 rounded">is_deleted</span>
+                <span x-show="!collapsed" x-cloak class="text-[10px] font-mono bg-slate-800 px-1.5 py-0.5 rounded">is_deleted</span>
             </div>
         </aside>
 

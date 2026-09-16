@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Reports;
 
 use App\Services\ReportService;
 use Livewire\Attributes\Layout;
@@ -8,11 +8,11 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Layout('components.layouts.app')]
-#[Title('Dashboard TRD')]
-class Dashboard extends Component
+#[Title('Reportes TRD')]
+class Index extends Component
 {
     public function render(ReportService $reports)
     {
-        return view('livewire.dashboard', $reports->metrics());
+        return view('livewire.reports.index', $reports->metrics());
     }
 }

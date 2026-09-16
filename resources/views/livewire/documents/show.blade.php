@@ -6,6 +6,11 @@
             <p class="text-xs text-slate-500 mt-1">{{ $document->document_type }} · {{ $document->support }} · {{ number_format((int) data_get($document->file_metadata, 'size_bytes', 0) / 1024, 1) }} KB</p>
         </div>
         <div class="flex gap-1">
+            @if(auth()->user()->hasPermission('documents.edit'))
+                <x-icon-action href="{{ route('documents.edit', $document->getKey()) }}" tooltip="Editar">
+                    <x-icon name="pencil" class="w-4 h-4" />
+                </x-icon-action>
+            @endif
             @if(auth()->user()->hasPermission('documents.download'))
                 <x-icon-action href="{{ route('documents.download', $document->getKey()) }}" tooltip="Descargar PDF">
                     <x-icon name="download" class="w-4 h-4" />

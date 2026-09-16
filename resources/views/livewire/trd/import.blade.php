@@ -1,10 +1,10 @@
 <div class="p-6 max-w-5xl mx-auto space-y-6">
     <div>
         <h2 class="text-xl font-bold">Carga masiva TRD</h2>
-        <p class="text-xs text-slate-500">Encabezados: codigo_seccion, nombre_seccion, codigo_subseccion, nombre_subseccion, codigo_serie, nombre_serie, codigo_subserie, nombre_subserie, retencion_gestion, retencion_central, disposicion_final</p>
+        <p class="text-xs text-slate-500">Encabezados: codigo_seccion, nombre_seccion, codigo_subseccion, nombre_subseccion, codigo_serie, nombre_serie, codigo_subserie, nombre_subserie, retencion_gestion, retencion_central, disposicion_final. Formatos: CSV o Excel (.xlsx).</p>
     </div>
     <form wire:submit="save" class="bg-white border rounded-xl p-5 space-y-3">
-        <input type="file" wire:model="file" accept=".csv,.txt" class="text-xs">
+        <input type="file" wire:model="file" accept=".csv,.txt,.xlsx,.xls" class="text-xs">
         @error('file') <p class="text-rose-600 text-xs">{{ $message }}</p> @enderror
         <div wire:loading wire:target="file" class="text-xs text-slate-500">Cargando archivo...</div>
         <button class="px-4 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg">Enviar a cola Redis</button>

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ArchiveDocument;
+use App\Models\Document;
 use App\Models\Proceeding;
 use App\Models\TrdStructure;
 use App\Models\User;
@@ -195,7 +195,7 @@ class DatabaseSeeder extends Seeder
             ],
         );
 
-        ArchiveDocument::query()->updateOrCreate(
+        Document::query()->updateOrCreate(
             ['name' => 'Acta 001 - Sesión Inaugural 2025'],
             [
                 'proceedings_id' => $exp1->getKey(),

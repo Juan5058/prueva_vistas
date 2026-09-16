@@ -32,11 +32,13 @@ Sin Docker se requiere la extensión `mongodb`, Redis y `composer install`. PHP 
 ## Reglas del pliego cubiertas
 
 - Acciones de tabla: solo iconos + tooltip (`x-icon-action`)
-- CSV TRD: encabezados `codigo_seccion` … `disposicion_final` (CT\|E\|M\|S). Ejemplo en `storage/app/examples/trd_import_ejemplo.csv`
-- PDF: MIME `application/pdf`, nombre UUID, tope **10 MB** (`max:10240`)
+- CSV/Excel TRD: encabezados `codigo_seccion` … `disposicion_final` (CT\|E\|M\|S). Ejemplo CSV en `storage/app/examples/trd_import_ejemplo.csv`
+- PDF de documentos: MIME `application/pdf`, nombre UUID, tope **10 MB**, disco `Storage::disk('private')`
+- Reportes: `/reportes` y descarga `inventario-trd.pdf` (`reports.download-pdf`)
 - Auditoría `DocumentAuditLog` (VIEW / DOWNLOAD / UPDATE)
-- Soft delete lógico: `softDelete()`; `delete()` y `forceDelete()` lanzan `CRITICAL_POLICY_VIOLATION`
-- Tests: IP no autorizada, `force_logout` y borrado lógico (`php artisan test`)
+- Soft delete lógico en todos los modelos: `softDelete()`; `delete()` y `forceDelete()` lanzan `CRITICAL_POLICY_VIOLATION`
+- Tests: IP no autorizada, `force_logout`, borrado lógico e importación (`php artisan test`)
+- Estilo PSR-12 verificado en CI con Laravel Pint (`vendor/bin/pint --test`)
 
 ## Tests
 

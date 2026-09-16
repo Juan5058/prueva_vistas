@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use MongoDB\Driver\Exception\Exception;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,6 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'trd.session' => VerifyUserSessionAndIp::class,
             'permission' => EnsurePermission::class,
         ]);
+        if (env('APP_ENV') === 'testing') {
+            $middleware->validateCsrfTokens(except: ['login', 'logout']);
+        }
         $middleware->redirectGuestsTo(fn () => route('login'));
         $middleware->redirectUsersTo(fn () => route('dashboard'));
     })
@@ -28,8 +32,8 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
 
-        if (interface_exists(\MongoDB\Driver\Exception\Exception::class)) {
-            $exceptions->render(function (\MongoDB\Driver\Exception\Exception $e, Request $request) {
+        if (interface_exists(Exception::class)) {
+            $exceptions->render(function (Exception $e, Request $request) {
                 report($e);
 
                 if ($request->expectsJson()) {

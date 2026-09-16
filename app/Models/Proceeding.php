@@ -50,6 +50,6 @@ class Proceeding extends Model
 
     public function documents()
     {
-        return $this->hasMany(ArchiveDocument::class, 'proceedings_id');
+        return $this->hasMany(Document::class, 'proceedings_id');
     }
 }

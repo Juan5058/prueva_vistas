@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SecurityController;
 use App\Livewire\Dashboard;
 use App\Livewire\Documents;
 use App\Livewire\Proceedings;
+use App\Livewire\Reports;
 use App\Livewire\Security;
 use App\Livewire\Trd;
 use App\Livewire\Users;
@@ -42,7 +44,11 @@ Route::middleware(['auth', 'trd.session'])->group(function () {
         Route::get('/documentos/{documentId}', Documents\Show::class)->name('documents.show');
     });
     Route::middleware('permission:documents.download')->get('/documentos/{document}/descargar', [DocumentController::class, 'download'])->name('documents.download');
-    Route::middleware('permission:documents.upload')->get('/documentos-nuevo', Documents\Create::class)->name('documents.create');
+    Route::middleware('permission:documents.upload')->get('/documentos-nuevo', Documents\Form::class)->name('documents.create');
+    Route::middleware('permission:documents.edit')->get('/documentos/{document}/editar', Documents\Form::class)->name('documents.edit');
+
+    Route::middleware('permission:reports.view')->get('/reportes', Reports\Index::class)->name('reports.index');
+    Route::middleware('permission:reports.download-pdf')->get('/reportes/inventario.pdf', [ReportController::class, 'inventory'])->name('reports.download-pdf');
 
     Route::middleware('permission:users.view')->get('/usuarios', Users\Index::class)->name('users.index');
     Route::middleware('permission:users.create')->get('/usuarios-nuevo', Users\Form::class)->name('users.create');

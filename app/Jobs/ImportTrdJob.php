@@ -4,9 +4,12 @@ namespace App\Jobs;
 
 use App\Models\TrdImport;
 use App\Models\TrdStructure;
+use App\Support\TabularFile;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Str;
+use RuntimeException;
+use Throwable;
 
 class ImportTrdJob implements ShouldQueue
 {
@@ -31,8 +34,11 @@ class ImportTrdJob implements ShouldQueue
         'disposicion_final',
     ];
 
-    public function __construct(public string $importId, public string $content)
-    {
+    public function __construct(
+        public string $importId,
+        public string $content,
+        public string $originalName = 'import.csv',
+    ) {
         $this->onQueue('default');
     }
 
@@ -45,17 +51,25 @@ class ImportTrdJob implements ShouldQueue
 
         $import->update(['status' => 'PROCESSING']);
 
-        $lines = preg_split('/\r\n|\r|\n/', $this->content) ?: [];
-        $lines = array_values(array_filter($lines, fn ($line) => trim($line) !== ''));
+        try {
+            $rows = TabularFile::rows($this->content, $this->originalName);
+        } catch (RuntimeException $exception) {
+            $import->update(['status' => 'FAILED', 'error_log' => [$exception->getMessage()]]);
 
-        if ($lines === []) {
+            return;
+        } catch (Throwable $exception) {
+            $import->update(['status' => 'FAILED', 'error_log' => ['No fue posible leer el archivo plano.']]);
+
+            return;
+        }
+
+        if ($rows === []) {
             $import->update(['status' => 'FAILED', 'error_log' => ['El archivo está vacío.']]);
 
             return;
         }
 
-        $delimiter = str_contains($lines[0], ';') ? ';' : (str_contains($lines[0], "\t") ? "\t" : ',');
-        $header = array_map(fn ($col) => $this->normalizeHeader($col), explode($delimiter, $lines[0]));
+        $header = array_map(fn ($col) => $this->normalizeHeader((string) $col), $rows[0]);
         $missing = array_diff(self::REQUIRED_HEADERS, $header);
 
         if ($missing !== []) {
@@ -68,15 +82,14 @@ class ImportTrdJob implements ShouldQueue
         }
 
         $map = array_flip($header);
-        array_shift($lines);
-        $import->update(['total_rows' => count($lines)]);
+        $dataRows = array_slice($rows, 1);
+        $import->update(['total_rows' => count($dataRows)]);
 
         $errors = [];
         $processed = 0;
 
-        foreach ($lines as $index => $line) {
-            $cols = array_map(fn ($col) => trim(preg_replace('/^["\']|["\']$/', '', $col) ?? ''), explode($delimiter, $line));
-            $get = fn (string $key) => $cols[$map[$key]] ?? '';
+        foreach ($dataRows as $index => $cols) {
+            $get = fn (string $key) => trim((string) ($cols[$map[$key]] ?? ''));
 
             $sectionCode = $get('codigo_seccion');
             $sectionName = $get('nombre_seccion');
@@ -85,12 +98,14 @@ class ImportTrdJob implements ShouldQueue
 
             if ($sectionCode === '' || $serieCode === '') {
                 $errors[] = 'Fila '.($index + 2).': codigo_seccion y codigo_serie son obligatorios.';
+
                 continue;
             }
 
             $disposition = strtoupper($get('disposicion_final') ?: 'CT');
             if (! in_array($disposition, ['CT', 'E', 'M', 'S'], true)) {
                 $errors[] = 'Fila '.($index + 2).': disposicion_final debe ser CT, E, M o S.';
+
                 continue;
             }
 

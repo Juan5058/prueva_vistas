@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Jobs\ImportTrdJob;
-use App\Models\ArchiveDocument;
+use App\Models\Document;
 use App\Models\DocumentAuditLog;
 use App\Models\Proceeding;
 use App\Models\TrdImport;
@@ -21,7 +21,7 @@ class DocumentAndCsvPolicyTest extends MongoTestCase
     #[Test]
     public function pdf_se_guarda_con_uuid_y_mime_application_pdf(): void
     {
-        Storage::fake();
+        Storage::fake('private');
 
         $user = User::factory()->superAdmin()->create();
         $trd = TrdStructure::query()->create([
@@ -61,8 +61,9 @@ class DocumentAndCsvPolicyTest extends MongoTestCase
         $this->assertNotNull($document->file_path);
         $this->assertMatchesRegularExpression('/^[0-9a-f-]{36}\.pdf$/i', basename((string) $document->file_path));
         $this->assertTrue(
-            ArchiveDocument::query()->where('_id', $document->getKey())->exists()
+            Document::query()->where('_id', $document->getKey())->exists()
         );
+        $this->assertTrue(Storage::disk('private')->exists($document->file_path));
         $this->assertLessThanOrEqual(10 * 1024 * 1024, (int) data_get($document->file_metadata, 'size_bytes'));
     }
 
@@ -89,7 +90,7 @@ class DocumentAndCsvPolicyTest extends MongoTestCase
             'state' => 'Público',
             'is_deleted' => false,
         ]);
-        $document = ArchiveDocument::query()->create([
+        $document = Document::query()->create([
             'proceedings_id' => (string) $proceeding->getKey(),
             'document_type' => 'Acta',
             'name' => 'Acta de auditoría VIEW',

@@ -6,7 +6,7 @@ use App\Models\Concerns\HasPublicKey;
 use App\Models\Concerns\LogicalSoftDeletes;
 use MongoDB\Laravel\Eloquent\Model;
 
-class ArchiveDocument extends Model
+class Document extends Model
 {
     use HasPublicKey, LogicalSoftDeletes;
 

@@ -27,6 +27,7 @@ class RoleCatalog
         'proceedings.delete',
         'documents.view',
         'documents.upload',
+        'documents.edit',
         'documents.download',
         'documents.delete',
         'reports.view',
@@ -62,7 +63,7 @@ class RoleCatalog
             self::LIDER_AMBIENTAL => [
                 'trd.view', 'trd.create', 'trd.edit', 'trd.import',
                 'proceedings.view', 'proceedings.create', 'proceedings.edit',
-                'documents.view', 'documents.upload', 'documents.download',
+                'documents.view', 'documents.upload', 'documents.edit', 'documents.download',
                 'reports.view', 'reports.download-pdf',
             ],
             self::APRENDIZ => [

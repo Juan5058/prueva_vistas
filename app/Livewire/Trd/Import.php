@@ -21,7 +21,7 @@ class Import extends Component
         abort_unless(auth()->user()->hasPermission('trd.import'), 403);
 
         $this->validate([
-            'file' => 'required|file|mimes:csv,txt|max:10240',
+            'file' => 'required|file|mimes:csv,txt,xlsx,xls|max:10240',
         ]);
 
         $security->queueImport((string) auth()->id(), $this->file);

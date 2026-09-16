@@ -24,7 +24,8 @@ class IpAuthorizationTest extends MongoTestCase
             'force_logout' => false,
         ]);
 
-        $this->withSession(['simulated_ip' => '201.55.99.1'])
+        $this->from('/login')
+            ->withSession(['simulated_ip' => '201.55.99.1'])
             ->post('/login', [
                 'email' => $user->email,
                 'password' => 'secret123',
