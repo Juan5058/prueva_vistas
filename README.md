@@ -27,12 +27,19 @@ En Windows PowerShell usa `copy .env.example .env` en lugar de `cp`.
 
 Abre [http://localhost:8000](http://localhost:8000). El worker `queue` ejecuta `php artisan queue:work redis`.
 
-Si el contenedor ya estaba arriba con `APP_KEY` vacía:
+Si **sigue** saliendo `MissingAppKeyException` (`No application encryption key has been specified`):
+
+el contenedor viejo suele tener `APP_KEY=` vacío en el entorno y eso pisa el `.env`. Hay que **bajar, reconstruir y recrear**:
 
 ```bash
+git pull
+docker compose down
+docker compose up --build -d --force-recreate
 docker compose exec app php artisan key:generate --force
-docker compose up -d --force-recreate
+docker compose exec app php artisan config:clear
 ```
+
+En PowerShell, si aún no hay `.env`: `copy .env.example .env` antes del `up`. No copies el `.env` de otro compañero.
 
 Sin Docker se requiere la extensión `mongodb`, Redis y `composer install`. PHP portable del workspace: `../.tools/php85`.
 
