@@ -9,15 +9,30 @@ Sistema de gestión e inventario TRD en **Laravel 13**, **Livewire 3 + Alpine**,
 - Redis: sesiones, cache y cola `ImportTrdJob`
 - Nginx + PHP-FPM vía `docker-compose`
 
-## Puesta en marcha con Docker
+## Puesta en marcha (cada desarrollador)
+
+El archivo `.env` **no está en GitHub** (contiene secretos). Cada persona genera su propia `APP_KEY`. Si aparece `MissingAppKeyException`, falta ese paso.
 
 ```bash
-docker compose up --build
-docker compose exec app php artisan key:generate
-docker compose exec app php artisan db:seed
+git clone https://github.com/alejandrocasta19/Software-laravel.git
+cd Software-laravel
+cp .env.example .env
+docker compose up --build -d
+docker compose exec app php artisan key:generate --force
+docker compose exec app composer install
+docker compose exec app php artisan db:seed --force
 ```
 
+En Windows PowerShell usa `copy .env.example .env` en lugar de `cp`.
+
 Abre [http://localhost:8000](http://localhost:8000). El worker `queue` ejecuta `php artisan queue:work redis`.
+
+Si el contenedor ya estaba arriba con `APP_KEY` vacía:
+
+```bash
+docker compose exec app php artisan key:generate --force
+docker compose up -d --force-recreate
+```
 
 Sin Docker se requiere la extensión `mongodb`, Redis y `composer install`. PHP portable del workspace: `../.tools/php85`.
 
