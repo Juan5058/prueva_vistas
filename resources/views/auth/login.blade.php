@@ -1,6 +1,5 @@
 <x-layouts.guest>
 @section('title', 'Ingreso TRD')
-<<<<<<< HEAD
 <div style="height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2.75rem 1rem 1rem 1rem; box-sizing: border-box; overflow: hidden;">
 
     {{-- Tarjeta principal glassmorphism compacta --}}
@@ -22,13 +21,6 @@
                         overflow: hidden; flex-shrink: 0;">
                 <img src="/images/logo-trd.jpg" alt="Logo TRD"
                      style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-=======
-<div class="min-h-screen flex flex-col justify-center items-center p-4 relative">
-    <div class="w-full max-w-md relative z-10">
-        <div class="text-center mb-6">
-            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-slate-800 text-white mb-3">
-                <x-icon name="book" class="w-7 h-7" />
->>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
             </div>
         </div>
 
@@ -106,7 +98,6 @@
                 {{-- IP --}}
                 <div style="padding: 0.35rem 0.65rem; border-radius: 0.5rem; background: rgba(15, 23, 42, 0.45); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.62rem; color: #cbd5e1; display: flex; align-items: center; justify-content: space-between; font-family: monospace;">
                     <span>IP Solicitante:</span>
-<<<<<<< HEAD
                     <span style="color: #60a5fa; font-weight: 700;">{{ $currentIp ?? '127.0.0.1' }}</span>
                 </div>
 
@@ -120,11 +111,6 @@
                                font-family: inherit; margin-top: 0.15rem;"
                         onmouseover="this.style.background='linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)'; this.style.boxShadow='0 6px 20px rgba(37, 99, 235, 0.6)';"
                         onmouseout="this.style.background='linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)'; this.style.boxShadow='0 4px 15px rgba(37, 99, 235, 0.4)';">
-=======
-                    <span class="text-slate-200 font-semibold">{{ $currentIp ?? '127.0.0.1' }}</span>
-                </div>
-                <button class="w-full mt-2 py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2">
->>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
                     Ingresar al Sistema TRD
                 </button>
             </form>
@@ -170,13 +156,6 @@
                 &#11044; Acceso protegido · VerifyUserSessionAndIp
             </p>
         </div>
-<<<<<<< HEAD
-=======
-        <p class="mt-4 text-center text-[11px] text-slate-500 flex items-center justify-center gap-1.5">
-            <x-icon name="shield" class="w-3.5 h-3.5 text-slate-500" />
-            Acceso protegido por middleware VerifyUserSessionAndIp
-        </p>
->>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
     </div>
 </div>
 

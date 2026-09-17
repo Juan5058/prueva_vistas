@@ -17,7 +17,6 @@
             </div>
         </div>
         <div>
-<<<<<<< HEAD
             @if(auth()->user()->hasPermission('documents.upload'))
                 <a href="{{ route('documents.create', ['proceeding_id' => $proceeding->getKey()]) }}" wire:navigate class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 active:scale-[0.99] transition-all">
                     <x-icon name="upload" class="w-4 h-4" />
@@ -25,15 +24,6 @@
                 </a>
             @endif
         </div>
-=======
-            <p class="text-xs font-mono text-slate-700">{{ $proceeding->file_number }}</p>
-            <h2 class="text-xl font-bold">{{ $proceeding->name }}</h2>
-            <p class="text-xs text-slate-500 mt-1">{{ $proceeding->serie_name }} / {{ $proceeding->sub_serie_name }} · {{ $proceeding->state }}</p>
-        </div>
-        @if(auth()->user()->hasPermission('documents.upload'))
-            <a href="{{ route('documents.create', ['proceeding_id' => $proceeding->getKey()]) }}" wire:navigate class="px-3 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-white rounded-lg">Cargar PDF</a>
-        @endif
->>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
     </div>
 
     @if($proceeding->description)

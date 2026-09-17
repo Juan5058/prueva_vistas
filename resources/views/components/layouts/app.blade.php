@@ -34,7 +34,6 @@
             : 'text-slate-300 hover:bg-slate-800 hover:text-white';
     };
 @endphp
-<<<<<<< HEAD
 {{-- Layout: sidebar full-height | header + content in right column --}}
 <div class="flex h-screen overflow-hidden">
 
@@ -128,29 +127,6 @@
                     class="w-full flex items-center justify-between px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
                 <span>Seguridad & Sesiones</span>
                 <span x-text="security ? '−' : '+'"></span>
-=======
-<div class="min-h-screen flex flex-col">
-    <header class="h-16 bg-slate-900 border-b border-slate-800 px-6 flex items-center justify-between sticky top-0 z-30">
-        <div class="flex items-center gap-4">
-            <button type="button" @click="toggleSidebar()" class="p-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white" title="Plegar menú">
-                <x-icon name="panel" class="w-4 h-4" />
-            </button>
-            <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span class="text-xs font-semibold text-slate-200 tracking-tight">SISTEMA TRD EN LÍNEA</span>
-            </div>
-            <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs text-slate-300 font-mono">
-                <x-icon name="wifi" class="w-3.5 h-3.5 text-slate-400" />
-                <span>IP Origen:</span>
-                <span class="font-semibold text-white">{{ $currentIp }}</span>
-                @if($simulated)
-                    <span class="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 rounded font-sans font-medium">Simulada</span>
-                @endif
-            </div>
-            <button type="button" @click="ipModal = true" class="text-xs text-slate-300 hover:text-white flex items-center gap-1 font-medium">
-                <x-icon name="shield" class="w-3.5 h-3.5" />
-                Probar Validación de IP
->>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
             </button>
             <div x-show="collapsed || security" x-cloak class="space-y-1">
                 @if($user->hasPermission('security.view_sessions'))
@@ -187,7 +163,6 @@
             </span>
             <span x-show="!collapsed" x-cloak class="text-[10px] font-mono bg-slate-800 px-1.5 py-0.5 rounded">is_deleted</span>
         </div>
-<<<<<<< HEAD
     </aside>
 
     {{-- ═══════════════════════════════════════════════════════════
@@ -222,87 +197,6 @@
                     <div class="text-[11px] text-slate-500 flex items-center justify-end gap-1.5 mt-0.5">
                         <span class="bg-blue-50 text-blue-700 border border-blue-200 px-1.5 rounded text-[10px] font-medium uppercase">{{ $user->roleLabel() }}</span>
                         <span>{{ $user->email }}</span>
-=======
-        <div class="flex items-center gap-4">
-            <div class="hidden md:block text-right">
-                <div class="text-xs font-semibold text-white">{{ $user->name }}</div>
-                <div class="text-[11px] text-slate-400 flex items-center justify-end gap-1.5 mt-0.5">
-                    <span class="bg-slate-800 text-slate-200 border border-slate-700 px-1.5 rounded text-[10px] font-medium uppercase">{{ $user->roleLabel() }}</span>
-                    <span>{{ $user->email }}</span>
-                </div>
-            </div>
-            <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold text-xs uppercase">
-                {{ mb_strtoupper(mb_substr($user->name, 0, 2)) }}
-            </div>
-            <form method="POST" action="{{ route('logout') }}" class="border-l border-slate-700 pl-3">
-                @csrf
-                <button type="submit" class="p-2 rounded-lg hover:bg-white/10" title="Cerrar sesión" style="color:#ef4444">
-                    <x-icon name="logout" class="w-5 h-5" style="color:#ef4444" />
-                </button>
-            </form>
-        </div>
-    </header>
-
-    <div class="flex-1 flex">
-        <aside class="bg-slate-900 text-slate-200 min-h-[calc(100vh-4rem)] flex flex-col border-r border-slate-800 transition-all duration-200"
-               :class="collapsed ? 'w-[4.5rem]' : 'w-64'">
-            <div class="p-4 border-b border-slate-800 flex items-center gap-3" :class="collapsed && 'justify-center'">
-                <div class="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center text-slate-200 shrink-0">
-                    <x-icon name="book" class="w-5 h-5" />
-                </div>
-                <div x-show="!collapsed" x-cloak>
-                    <h1 class="font-semibold text-sm tracking-wide text-white leading-tight">TRD & GESTIÓN</h1>
-                    <p class="text-[11px] text-slate-400 font-medium">Inventario Documental</p>
-                </div>
-            </div>
-            <nav class="flex-1 p-3 space-y-1.5 overflow-y-auto">
-                <a href="{{ route('dashboard') }}" wire:navigate title="Dashboard Limpio" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ $nav === 'dashboard' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}" :class="collapsed && 'justify-center px-2'">
-                    <x-icon name="dashboard" class="w-4 h-4 shrink-0" />
-                    <span x-show="!collapsed" x-cloak>Dashboard Limpio</span>
-                </a>
-
-                <button type="button" x-show="!collapsed" x-cloak @click="inventory = !inventory" class="w-full flex items-center justify-between px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                    <span>Inventario y TRD</span>
-                    <span x-text="inventory ? '−' : '+'"></span>
-                </button>
-                <div x-show="collapsed || inventory" x-cloak class="space-y-1">
-                    @if($user->hasPermission('trd.view'))
-                        <a href="{{ route('trd.index') }}" wire:navigate title="Estructuras TRD" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isTrd) }}" :class="collapsed && 'justify-center px-2'">
-                            <x-icon name="file" class="w-4 h-4 text-slate-400 shrink-0" />
-                            <span x-show="!collapsed" x-cloak>Estructuras TRD</span>
-                        </a>
-                    @endif
-                    @if($user->hasPermission('proceedings.view'))
-                        <a href="{{ route('proceedings.index') }}" wire:navigate title="Expedientes" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isProceedings) }}" :class="collapsed && 'justify-center px-2'">
-                            <x-icon name="folder" class="w-4 h-4 text-slate-400 shrink-0" />
-                            <span x-show="!collapsed" x-cloak>Expedientes</span>
-                        </a>
-                    @endif
-                    @if($user->hasPermission('documents.view'))
-                        <a href="{{ route('documents.index') }}" wire:navigate title="Documentos" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isDocuments) }}" :class="collapsed && 'justify-center px-2'">
-                            <x-icon name="file" class="w-4 h-4 text-slate-400 shrink-0" />
-                            <span x-show="!collapsed" x-cloak>Documentos</span>
-                        </a>
-                    @endif
-                    @if($user->hasPermission('trd.import'))
-                        <a href="{{ route('trd.import') }}" wire:navigate title="Carga Masiva TRD" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($nav === 'trd.import') }}" :class="collapsed && 'justify-center px-2'">
-                            <x-icon name="upload" class="w-4 h-4 text-slate-400 shrink-0" />
-                            <span x-show="!collapsed" x-cloak>Carga Masiva TRD</span>
-                        </a>
-                    @endif
-                </div>
-
-                @if($user->hasPermission('reports.view'))
-                    <button type="button" x-show="!collapsed" x-cloak @click="analytics = !analytics" class="w-full flex items-center justify-between px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                        <span>Analítica</span>
-                        <span x-text="analytics ? '−' : '+'"></span>
-                    </button>
-                    <div x-show="collapsed || analytics" x-cloak class="space-y-1">
-                        <a href="{{ route('reports.index') }}" wire:navigate title="Reportes PDF" class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isReports) }}" :class="collapsed && 'justify-center px-2'">
-                            <x-icon name="chart" class="w-4 h-4 text-slate-400 shrink-0" />
-                            <span x-show="!collapsed" x-cloak>Reportes PDF</span>
-                        </a>
->>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
                     </div>
                 </div>
                 <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-xs uppercase">

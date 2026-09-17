@@ -21,12 +21,6 @@
                 </a>
             @endif
         </div>
-<<<<<<< HEAD
-=======
-        @if(auth()->user()->hasPermission('documents.upload'))
-            <a href="{{ route('documents.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Cargar documento</a>
-        @endif
->>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
     </div>
 
     {{-- Buscador y Tabla --}}

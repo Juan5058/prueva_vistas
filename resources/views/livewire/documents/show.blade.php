@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div class="p-6 max-w-7xl mx-auto space-y-6">
 
     {{-- Banner Header --}}
@@ -16,14 +15,6 @@
                     {{ $document->document_type }} · {{ $document->support }} · {{ number_format((int) data_get($document->file_metadata, 'size_bytes', 0) / 1024, 1) }} KB
                 </p>
             </div>
-=======
-<div class="p-6 max-w-5xl mx-auto space-y-6">
-    <div class="flex items-start justify-between pb-4 border-b">
-        <div>
-            <p class="text-xs font-mono text-slate-700">{{ data_get($document->file_metadata, 'uuid', data_get($document->file_metadata, 'original_name')) }}</p>
-            <h2 class="text-xl font-bold">{{ $document->name }}</h2>
-            <p class="text-xs text-slate-500 mt-1">{{ $document->document_type }} · {{ $document->support }} · {{ number_format((int) data_get($document->file_metadata, 'size_bytes', 0) / 1024, 1) }} KB</p>
->>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
         </div>
         <div class="flex items-center gap-2">
             @if(auth()->user()->hasPermission('documents.edit'))
