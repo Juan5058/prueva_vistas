@@ -34,17 +34,17 @@
                         $isMismatch = str_contains($status, 'mismatch') || str_contains($status, 'ip');
                         $isLogout   = str_contains($status, 'logout') || str_contains($status, 'force');
                         [$badge, $rowBg, $dot, $icon] = match(true) {
-                            $isBlocked  => ['bg-rose-100 text-rose-700 border-rose-200',   'bg-rose-50/30',    'bg-rose-500',    '🚫'],
-                            $isSuccess  => ['bg-emerald-100 text-emerald-700 border-emerald-200', 'bg-emerald-50/20', 'bg-emerald-500', '✔'],
-                            $isMismatch => ['bg-amber-100 text-amber-700 border-amber-200', 'bg-amber-50/20',   'bg-amber-500',   '⚠'],
-                            $isLogout   => ['bg-slate-100 text-slate-600 border-slate-200', '',                 'bg-slate-400',   '↩'],
-                            default     => ['bg-slate-100 text-slate-700 border-slate-200', '',                 'bg-slate-400',   '•'],
+                            $isBlocked  => ['bg-rose-100 text-rose-700 border-rose-200',   'bg-rose-50/30',    'bg-rose-500',    'slash'],
+                            $isSuccess  => ['bg-emerald-100 text-emerald-700 border-emerald-200', 'bg-emerald-50/20', 'bg-emerald-500', 'check-circle'],
+                            $isMismatch => ['bg-amber-100 text-amber-700 border-amber-200', 'bg-amber-50/20',   'bg-amber-500',   'alert-triangle'],
+                            $isLogout   => ['bg-slate-100 text-slate-600 border-slate-200', '',                 'bg-slate-400',   'logout'],
+                            default     => ['bg-slate-100 text-slate-700 border-slate-200', '',                 'bg-slate-400',   'shield'],
                         };
                     @endphp
                     <tr class="transition-colors {{ $rowBg }} hover:brightness-95">
                         <td class="p-3.5">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border {{ $badge }}">
-                                <span class="text-[10px]">{{ $icon }}</span>
+                                <x-icon name="{{ $icon }}" class="w-3.5 h-3.5 shrink-0" />
                                 {{ $log->status }}
                             </span>
                         </td>

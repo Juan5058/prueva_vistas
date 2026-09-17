@@ -50,7 +50,7 @@
                         $supportBadge = $isElectronic
                             ? 'bg-blue-100 text-blue-700 border-blue-200'
                             : 'bg-amber-100 text-amber-700 border-amber-200';
-                        $supportIcon = $isElectronic ? '💾' : '📄';
+                        $supportIcon = $isElectronic ? 'hard-drive' : 'file';
                     @endphp
                     <tr class="hover:bg-slate-50/60 transition-colors">
                         <td class="p-3.5">
@@ -58,21 +58,24 @@
                         </td>
                         <td class="p-3.5">
                             @if($document->proceeding?->file_number)
-                                <span class="inline-flex items-center gap-1 font-mono font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md text-[11px]">
-                                    📁 {{ $document->proceeding->file_number }}
+                                <span class="inline-flex items-center gap-1.5 font-mono font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md text-[11px]">
+                                    <x-icon name="folder" class="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                                    <span>{{ $document->proceeding->file_number }}</span>
                                 </span>
                             @else
                                 <span class="text-slate-400 text-[11px]">—</span>
                             @endif
                         </td>
                         <td class="p-3.5 text-center">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
-                                🗂 {{ $document->document_type }}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                                <x-icon name="file" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                                <span>{{ $document->document_type }}</span>
                             </span>
                         </td>
                         <td class="p-3.5 text-center">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border {{ $supportBadge }}">
-                                {{ $supportIcon }} {{ $document->support }}
+                                <x-icon name="{{ $supportIcon }}" class="w-3.5 h-3.5 shrink-0" />
+                                <span>{{ $document->support }}</span>
                             </span>
                         </td>
                         <td class="p-3.5">

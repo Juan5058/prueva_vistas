@@ -48,22 +48,23 @@
                         $state = strtolower($proceeding->state ?? '');
                         [$stateBadge, $dotColor, $stateIcon] = match(true) {
                             str_contains($state, 'público') || str_contains($state, 'publico') || str_contains($state, 'abierto') || str_contains($state, 'activo') || str_contains($state, 'open')
-                                => ['bg-emerald-50 text-emerald-700 border-emerald-200', 'bg-emerald-500 animate-pulse', '🌐'],
+                                => ['bg-emerald-50 text-emerald-700 border-emerald-200', 'bg-emerald-500 animate-pulse', 'globe'],
                             str_contains($state, 'privado')
-                                => ['bg-amber-50 text-amber-700 border-amber-200', 'bg-amber-500', '🔒'],
+                                => ['bg-amber-50 text-amber-700 border-amber-200', 'bg-amber-500', 'lock'],
                             str_contains($state, 'reservado')
-                                => ['bg-rose-50 text-rose-700 border-rose-200', 'bg-rose-500', '🛡️'],
+                                => ['bg-rose-50 text-rose-700 border-rose-200', 'bg-rose-500', 'shield'],
                             str_contains($state, 'cerrado') || str_contains($state, 'closed')
-                                => ['bg-slate-100 text-slate-700 border-slate-200', 'bg-slate-400', '📁'],
+                                => ['bg-slate-100 text-slate-700 border-slate-200', 'bg-slate-400', 'folder'],
                             str_contains($state, 'archivado') || str_contains($state, 'archive')
-                                => ['bg-purple-50 text-purple-700 border-purple-200', 'bg-purple-500', '📦'],
-                            default => ['bg-blue-50 text-blue-700 border-blue-200', 'bg-blue-500', '📄'],
+                                => ['bg-purple-50 text-purple-700 border-purple-200', 'bg-purple-500', 'archive'],
+                            default => ['bg-blue-50 text-blue-700 border-blue-200', 'bg-blue-500', 'file'],
                         };
                     @endphp
                     <tr class="hover:bg-slate-50/60 transition-colors">
                         <td class="p-3.5">
-                            <span class="inline-flex items-center gap-1 font-mono font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md text-[11px]">
-                                📁 {{ $proceeding->file_number }}
+                            <span class="inline-flex items-center gap-1.5 font-mono font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md text-[11px]">
+                                <x-icon name="folder" class="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                                <span>{{ $proceeding->file_number }}</span>
                             </span>
                         </td>
                         <td class="p-3.5 font-semibold text-slate-900">{{ $proceeding->name }}</td>
@@ -75,7 +76,7 @@
                         <td class="p-3.5">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border shadow-2xs {{ $stateBadge }}">
                                 <span class="w-1.5 h-1.5 rounded-full {{ $dotColor }}"></span>
-                                <span class="text-[10px]">{{ $stateIcon }}</span>
+                                <x-icon name="{{ $stateIcon }}" class="w-3.5 h-3.5 shrink-0" />
                                 {{ $proceeding->state }}
                             </span>
                         </td>

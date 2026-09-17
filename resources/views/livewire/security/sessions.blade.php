@@ -54,8 +54,9 @@
                         </td>
                         <td class="p-3.5 text-center">
                             @if($session->current_ip)
-                                <span class="inline-flex items-center gap-1 font-mono text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-md text-[11px] font-semibold">
-                                    <span class="text-slate-400">🌐</span> {{ $session->current_ip }}
+                                <span class="inline-flex items-center gap-1.5 font-mono text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-md text-[11px] font-semibold">
+                                    <x-icon name="globe" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                                    <span>{{ $session->current_ip }}</span>
                                 </span>
                             @else
                                 <span class="text-slate-400 text-[11px]">—</span>

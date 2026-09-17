@@ -74,8 +74,9 @@
                     </td>
                     <td class="p-3.5 text-center">
                         @if($errCount > 0)
-                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-700 border border-rose-200">
-                                ⚠ {{ $errCount }}
+                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-700 border border-rose-200">
+                                <x-icon name="alert-triangle" class="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                                <span>{{ $errCount }}</span>
                             </span>
                         @else
                             <span class="text-slate-400 text-[11px]">—</span>

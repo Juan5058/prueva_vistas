@@ -261,7 +261,10 @@
         ════════════════════════════════════════════════════════════ --}}
         <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200">
             <div class="text-xs text-slate-500">
-                <span x-show="selectedReports.length === 0" class="text-amber-600 font-medium">⚠️ Selecciona al menos un reporte para habilitar la descarga.</span>
+                <span x-show="selectedReports.length === 0" class="inline-flex items-center gap-1.5 text-amber-600 font-medium">
+                    <x-icon name="alert-triangle" class="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                    <span>Selecciona al menos un reporte para habilitar la descarga.</span>
+                </span>
                 <span x-show="selectedReports.length > 0 && !errorMessage" class="text-slate-600">
                     Se exportará el PDF consolidado con los tipos de reporte seleccionados.
                 </span>

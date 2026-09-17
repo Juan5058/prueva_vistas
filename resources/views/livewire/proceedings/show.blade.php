@@ -11,20 +11,22 @@
                     $st = strtolower($proceeding->state ?? '');
                     [$bannerStateClass, $stIcon] = match(true) {
                         str_contains($st, 'público') || str_contains($st, 'publico') || str_contains($st, 'abierto') || str_contains($st, 'activo')
-                            => ['bg-emerald-500/20 text-emerald-300 border-emerald-500/40', '🌐'],
+                            => ['bg-emerald-500/20 text-emerald-300 border-emerald-500/40', 'globe'],
                         str_contains($st, 'privado')
-                            => ['bg-amber-500/20 text-amber-300 border-amber-500/40', '🔒'],
+                            => ['bg-amber-500/20 text-amber-300 border-amber-500/40', 'lock'],
                         str_contains($st, 'reservado')
-                            => ['bg-rose-500/20 text-rose-300 border-rose-500/40', '🛡️'],
-                        default => ['bg-blue-500/20 text-blue-300 border-blue-500/30', '📄'],
+                            => ['bg-rose-500/20 text-rose-300 border-rose-500/40', 'shield'],
+                        default => ['bg-blue-500/20 text-blue-300 border-blue-500/30', 'file'],
                     };
                 @endphp
                 <div class="flex items-center gap-2 mb-1 flex-wrap">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                        📁 {{ $proceeding->file_number }}
+                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                        <x-icon name="folder" class="w-3.5 h-3.5 text-blue-300 shrink-0" />
+                        <span>{{ $proceeding->file_number }}</span>
                     </span>
-                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ $bannerStateClass }}">
-                        <span>{{ $stIcon }}</span> {{ $proceeding->state }}
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ $bannerStateClass }}">
+                        <x-icon name="{{ $stIcon }}" class="w-3.5 h-3.5 shrink-0" />
+                        <span>{{ $proceeding->state }}</span>
                     </span>
                 </div>
                 <h2 class="text-2xl font-bold text-white tracking-tight">{{ $proceeding->name }}</h2>
