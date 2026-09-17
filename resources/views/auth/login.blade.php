@@ -64,7 +64,9 @@
                         Correo Electrónico
                     </label>
                     <div style="position: relative;">
-                        <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.8rem;">✉</span>
+                        <div style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; display: flex; align-items: center;">
+                            <x-icon name="mail" class="w-4 h-4" />
+                        </div>
                         <input id="login-input-email" name="email" type="email" required
                                value="{{ old('email', 'admin@trd.gob') }}"
                                style="width: 100%; padding: 0.5rem 0.75rem 0.5rem 2.25rem;
@@ -83,7 +85,9 @@
                         Contraseña
                     </label>
                     <div style="position: relative;">
-                        <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.8rem;">&#128274;</span>
+                        <div style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; display: flex; align-items: center;">
+                            <x-icon name="lock" class="w-4 h-4" />
+                        </div>
                         <input id="login-input-password" name="password" type="password" required
                                style="width: 100%; padding: 0.5rem 0.75rem 0.5rem 2.25rem;
                                       background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.25);
@@ -152,8 +156,9 @@
             </div>
 
             {{-- Footer --}}
-            <p style="margin-top: 0.5rem; text-align: center; font-size: 0.6rem; color: #cbd5e1;">
-                &#11044; Acceso protegido · VerifyUserSessionAndIp
+            <p style="margin-top: 0.5rem; text-align: center; font-size: 0.6rem; color: #cbd5e1; display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                <x-icon name="shield" class="w-3 h-3 text-emerald-400" />
+                <span>Acceso protegido · VerifyUserSessionAndIp</span>
             </p>
         </div>
     </div>
