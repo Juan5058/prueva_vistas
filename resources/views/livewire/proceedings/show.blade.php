@@ -7,9 +7,26 @@
                 <x-icon name="folder" class="w-6 h-6" />
             </div>
             <div>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">
-                    {{ $proceeding->file_number }} · {{ $proceeding->state }}
-                </span>
+                @php
+                    $st = strtolower($proceeding->state ?? '');
+                    [$bannerStateClass, $stIcon] = match(true) {
+                        str_contains($st, 'público') || str_contains($st, 'publico') || str_contains($st, 'abierto') || str_contains($st, 'activo')
+                            => ['bg-emerald-500/20 text-emerald-300 border-emerald-500/40', '🌐'],
+                        str_contains($st, 'privado')
+                            => ['bg-amber-500/20 text-amber-300 border-amber-500/40', '🔒'],
+                        str_contains($st, 'reservado')
+                            => ['bg-rose-500/20 text-rose-300 border-rose-500/40', '🛡️'],
+                        default => ['bg-blue-500/20 text-blue-300 border-blue-500/30', '📄'],
+                    };
+                @endphp
+                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                        📁 {{ $proceeding->file_number }}
+                    </span>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ $bannerStateClass }}">
+                        <span>{{ $stIcon }}</span> {{ $proceeding->state }}
+                    </span>
+                </div>
                 <h2 class="text-2xl font-bold text-white tracking-tight">{{ $proceeding->name }}</h2>
                 <p class="text-xs sm:text-sm text-slate-300 mt-1">
                     {{ $proceeding->serie_name }} / {{ $proceeding->sub_serie_name }}
