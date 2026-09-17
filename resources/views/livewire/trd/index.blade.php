@@ -21,10 +21,14 @@
                 </a>
             @endif
             @if(auth()->user()->hasPermission('trd.create'))
+<<<<<<< HEAD
                 <a href="{{ route('trd.create') }}" wire:navigate class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 active:scale-[0.99] transition-all">
                     <x-icon name="plus" class="w-4 h-4" />
                     <span>Nueva TRD</span>
                 </a>
+=======
+                <a href="{{ route('trd.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Nueva TRD</a>
+>>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
             @endif
         </div>
     </div>

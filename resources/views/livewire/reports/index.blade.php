@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="p-6 max-w-7xl mx-auto space-y-6" x-data="{
     selectedReports: ['totales'],
     startDate: '',
@@ -55,6 +56,30 @@
         <div class="flex items-start md:items-center gap-4 relative z-10">
             <div class="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center shrink-0 shadow-inner">
                 <x-icon name="file" class="w-6 h-6" />
+=======
+<div class="p-6 max-w-7xl mx-auto space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+        <div>
+            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Reportes de inventario</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Estadísticas TRD y descarga PDF del acervo</p>
+        </div>
+        @if(auth()->user()->hasPermission('reports.download-pdf'))
+            <a href="{{ route('reports.download-pdf') }}" class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-white bg-slate-800 hover:bg-slate-700 rounded-lg">
+                <x-icon name="download" class="w-4 h-4" /> Descargar inventario PDF
+            </a>
+        @endif
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        @foreach([
+            ['Expedientes', $kpis['totalProceedings']],
+            ['Documentos', $kpis['totalDocuments']],
+            ['Series TRD', $kpis['totalSeries']],
+            ['Usuarios activos', $kpis['totalActiveUsers']],
+        ] as [$title, $value])
+            <div class="bg-white p-5 rounded-xl border border-slate-200">
+                <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">{{ $title }}</div>
+                <div class="text-2xl font-bold font-mono">{{ $value }}</div>
+>>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
             </div>
             <div>
                 <h2 class="text-2xl font-bold text-white tracking-tight">Generador de Reportes</h2>

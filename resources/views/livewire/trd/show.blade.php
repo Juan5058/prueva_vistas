@@ -1,4 +1,5 @@
 <div class="p-6 max-w-5xl mx-auto space-y-6">
+<<<<<<< HEAD
 
     {{-- Banner Header --}}
     <div class="relative overflow-hidden bg-slate-900 border border-slate-800 text-white rounded-2xl p-6 shadow-sm flex items-center justify-between gap-6">
@@ -12,6 +13,12 @@
                 </span>
                 <h2 class="text-2xl font-bold text-white tracking-tight">{{ $structure->section_name }}</h2>
             </div>
+=======
+    <div class="flex items-center justify-between pb-4 border-b">
+        <div>
+            <p class="text-xs font-mono text-slate-700">{{ $structure->section_code }} · {{ $structure->version }}</p>
+            <h2 class="text-xl font-bold">{{ $structure->section_name }}</h2>
+>>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
         </div>
         @if(auth()->user()->hasPermission('trd.edit'))
             <x-icon-action href="{{ route('trd.edit', $structure->getKey()) }}" tooltip="Editar" variant="neutral">

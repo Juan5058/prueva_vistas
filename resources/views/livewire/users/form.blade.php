@@ -61,6 +61,15 @@
                 <span>Guardar usuario</span>
             </button>
         </div>
+<<<<<<< HEAD
+=======
+        <div>
+            <label class="text-xs font-semibold">Contraseña {{ $userId ? '(dejar vacío para no cambiar)' : '' }}</label>
+            <input type="password" wire:model="password" class="mt-1 w-full px-3 py-2 text-xs border rounded-lg">
+            @error('password') <p class="text-rose-600 text-xs">{{ $message }}</p> @enderror
+        </div>
+        <button class="px-4 py-2 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Guardar usuario</button>
+>>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
     </form>
 </div>
 

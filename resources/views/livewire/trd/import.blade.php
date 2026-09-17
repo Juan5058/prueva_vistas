@@ -21,6 +21,7 @@
             <p class="text-[11px] text-slate-400">Encabezados requeridos: codigo_seccion, nombre_seccion, codigo_subseccion, nombre_subseccion, codigo_serie, nombre_serie, codigo_subserie, nombre_subserie, retencion_gestion, retencion_central, disposicion_final.</p>
         </div>
         @error('file') <p class="text-rose-600 text-xs">{{ $message }}</p> @enderror
+<<<<<<< HEAD
         <div wire:loading wire:target="file" class="text-xs text-blue-600 font-medium">Validando y cargando archivo...</div>
 
         <div class="flex justify-end pt-2">
@@ -29,6 +30,10 @@
                 <span>Enviar a cola Redis</span>
             </button>
         </div>
+=======
+        <div wire:loading wire:target="file" class="text-xs text-slate-500">Cargando archivo...</div>
+        <button class="px-4 py-2 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Enviar a cola Redis</button>
+>>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
     </form>
 
     {{-- Historial de Importaciones --}}

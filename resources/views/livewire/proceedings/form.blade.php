@@ -99,6 +99,10 @@
                 <span>Guardar expediente</span>
             </button>
         </div>
+<<<<<<< HEAD
+=======
+        <button class="px-4 py-2 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Guardar expediente</button>
+>>>>>>> b167af4246a9b21d0efbbd3ab6a5ea5bb6bf4537
     </form>
 </div>
 
