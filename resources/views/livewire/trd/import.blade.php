@@ -4,7 +4,7 @@
     <div class="relative overflow-hidden bg-slate-900 border border-slate-800 text-white rounded-2xl p-6 shadow-sm flex items-center justify-between gap-6">
         <div class="flex items-center gap-4 relative z-10">
             <div class="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center shrink-0 shadow-inner">
-                <x-icon name="download" class="w-6 h-6" />
+                <x-icon name="upload-cloud" class="w-6 h-6" />
             </div>
             <div>
                 <h2 class="text-2xl font-bold text-white tracking-tight">Carga masiva TRD</h2>
@@ -25,7 +25,7 @@
 
         <div class="flex justify-end pt-2">
             <button class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-bold text-xs bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 active:scale-[0.99] transition-all cursor-pointer">
-                <x-icon name="check" class="w-4 h-4" />
+                <x-icon name="upload-cloud" class="w-4 h-4" />
                 <span>Enviar a cola Redis</span>
             </button>
         </div>

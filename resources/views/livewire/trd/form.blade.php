@@ -4,7 +4,7 @@
     <div class="relative overflow-hidden bg-slate-900 border border-slate-800 text-white rounded-2xl p-6 shadow-sm flex items-center justify-between gap-6">
         <div class="flex items-center gap-4 relative z-10">
             <div class="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center shrink-0 shadow-inner">
-                <x-icon name="book" class="w-6 h-6" />
+                <x-icon name="trd-structure" class="w-6 h-6" />
             </div>
             <div>
                 <h2 class="text-2xl font-bold text-white tracking-tight">{{ $structureId ? 'Editar estructura TRD' : 'Creación de Estructura TRD' }}</h2>

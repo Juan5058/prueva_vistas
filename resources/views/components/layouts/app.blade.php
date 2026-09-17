@@ -50,7 +50,7 @@
                 :class="collapsed && 'justify-center'"
                 :title="collapsed ? 'Expandir menú' : 'Plegar menú'">
             <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shrink-0">
-                <x-icon name="book" class="w-5 h-5" />
+                <x-icon name="brand" class="w-5 h-5" />
             </div>
             <div x-show="!collapsed" x-cloak>
                 <h1 class="font-semibold text-sm tracking-wide text-white leading-tight">TRD & GESTIÓN</h1>
@@ -77,7 +77,7 @@
                     <a href="{{ route('trd.index') }}" wire:navigate title="Estructuras TRD"
                        class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isTrd) }}"
                        :class="collapsed && 'justify-center px-2'">
-                        <x-icon name="file" class="w-4 h-4 text-slate-400 shrink-0" />
+                        <x-icon name="trd-structure" class="w-4 h-4 text-slate-400 shrink-0" />
                         <span x-show="!collapsed" x-cloak>Estructuras TRD</span>
                     </a>
                 @endif
@@ -85,7 +85,7 @@
                     <a href="{{ route('proceedings.index') }}" wire:navigate title="Expedientes"
                        class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isProceedings) }}"
                        :class="collapsed && 'justify-center px-2'">
-                        <x-icon name="folder" class="w-4 h-4 text-slate-400 shrink-0" />
+                        <x-icon name="proceedings" class="w-4 h-4 text-slate-400 shrink-0" />
                         <span x-show="!collapsed" x-cloak>Expedientes</span>
                     </a>
                 @endif
@@ -93,7 +93,7 @@
                     <a href="{{ route('documents.index') }}" wire:navigate title="Documentos"
                        class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isDocuments) }}"
                        :class="collapsed && 'justify-center px-2'">
-                        <x-icon name="file" class="w-4 h-4 text-slate-400 shrink-0" />
+                        <x-icon name="documents" class="w-4 h-4 text-slate-400 shrink-0" />
                         <span x-show="!collapsed" x-cloak>Documentos</span>
                     </a>
                 @endif
@@ -101,7 +101,7 @@
                     <a href="{{ route('trd.import') }}" wire:navigate title="Carga Masiva TRD"
                        class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($nav === 'trd.import') }}"
                        :class="collapsed && 'justify-center px-2'">
-                        <x-icon name="upload" class="w-4 h-4 text-slate-400 shrink-0" />
+                        <x-icon name="upload-cloud" class="w-4 h-4 text-slate-400 shrink-0" />
                         <span x-show="!collapsed" x-cloak>Carga Masiva TRD</span>
                     </a>
                 @endif
@@ -117,7 +117,7 @@
                     <a href="{{ route('reports.index') }}" wire:navigate title="Reportes PDF"
                        class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isReports) }}"
                        :class="collapsed && 'justify-center px-2'">
-                        <x-icon name="chart" class="w-4 h-4 text-slate-400 shrink-0" />
+                        <x-icon name="reports" class="w-4 h-4 text-slate-400 shrink-0" />
                         <span x-show="!collapsed" x-cloak>Reportes PDF</span>
                     </a>
                 </div>
@@ -133,13 +133,13 @@
                     <a href="{{ route('security.sessions') }}" wire:navigate title="Monitoreo de Sesiones"
                        class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($nav === 'security.sessions') }}"
                        :class="collapsed && 'justify-center px-2'">
-                        <x-icon name="activity" class="w-4 h-4 text-slate-400 shrink-0" />
+                        <x-icon name="sessions" class="w-4 h-4 text-slate-400 shrink-0" />
                         <span x-show="!collapsed" x-cloak>Monitoreo de Sesiones</span>
                     </a>
                     <a href="{{ route('security.logs') }}" wire:navigate title="Logs y Auditoría IP"
                        class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($nav === 'security.logs') }}"
                        :class="collapsed && 'justify-center px-2'">
-                        <x-icon name="shield" class="w-4 h-4 text-slate-400 shrink-0" />
+                        <x-icon name="logs" class="w-4 h-4 text-slate-400 shrink-0" />
                         <span x-show="!collapsed" x-cloak>Logs y Auditoría IP</span>
                     </a>
                 @endif
@@ -147,7 +147,7 @@
                     <a href="{{ route('users.index') }}" wire:navigate title="Usuarios y Roles RBAC"
                        class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium {{ $navClass($isUsers) }}"
                        :class="collapsed && 'justify-center px-2'">
-                        <x-icon name="users" class="w-4 h-4 text-slate-400 shrink-0" />
+                        <x-icon name="users-rbac" class="w-4 h-4 text-slate-400 shrink-0" />
                         <span x-show="!collapsed" x-cloak>Usuarios y Roles RBAC</span>
                     </a>
                 @endif
