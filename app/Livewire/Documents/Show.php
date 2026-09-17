@@ -3,6 +3,7 @@
 namespace App\Livewire\Documents;
 
 use App\Services\DocumentService;
+use App\Support\WithUnifiedPagination;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -11,6 +12,8 @@ use Livewire\Component;
 #[Title('Detalle de documento')]
 class Show extends Component
 {
+    use WithUnifiedPagination;
+
     public string $documentId = '';
 
     public function mount($documentId = null): void
@@ -25,7 +28,7 @@ class Show extends Component
 
         return view('livewire.documents.show', [
             'document' => $document,
-            'audits' => $document->auditLogs()->with('user')->orderBy('created_at', 'desc')->get(),
+            'audits' => $this->paginateCollection($document->auditLogs()->with('user')->orderBy('created_at', 'desc')->get()),
         ]);
     }
 }

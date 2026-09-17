@@ -111,7 +111,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
-            @forelse($proceeding->documents as $document)
+            @forelse($documents as $document)
                 <tr class="hover:bg-slate-50/60 transition-colors">
                     <td class="p-3.5 font-semibold text-slate-900">{{ $document->name }}</td>
                     <td class="p-3.5 text-center">
@@ -135,6 +135,7 @@
             @endforelse
             </tbody>
         </table>
+        <x-table-pagination :paginator="$documents" :perPage="$perPage" :customPerPage="$customPerPage" />
     </div>
 </div>
 

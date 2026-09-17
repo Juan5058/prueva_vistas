@@ -4,6 +4,7 @@ namespace App\Livewire\Users;
 
 use App\Http\Middleware\VerifyUserSessionAndIp;
 use App\Services\UserService;
+use App\Support\WithUnifiedPagination;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -12,6 +13,8 @@ use Livewire\Component;
 #[Title('Usuarios RBAC')]
 class Index extends Component
 {
+    use WithUnifiedPagination;
+
     public function inhabilitar(string $id, UserService $service): void
     {
         abort_unless(auth()->user()->hasPermission('users.delete'), 403);
@@ -40,7 +43,7 @@ class Index extends Component
     public function render(UserService $service)
     {
         return view('livewire.users.index', [
-            'users' => $service->list(),
+            'users' => $this->paginateCollection($service->list()),
         ]);
     }
 }

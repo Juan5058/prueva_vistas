@@ -3,6 +3,7 @@
 namespace App\Livewire\Trd;
 
 use App\Services\SecurityService;
+use App\Support\WithUnifiedPagination;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -13,6 +14,7 @@ use Livewire\WithFileUploads;
 class Import extends Component
 {
     use WithFileUploads;
+    use WithUnifiedPagination;
 
     public $file;
 
@@ -32,7 +34,7 @@ class Import extends Component
     public function render(SecurityService $security)
     {
         return view('livewire.trd.import', [
-            'imports' => $security->imports(),
+            'imports' => $this->paginateCollection($security->imports()),
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Livewire\Documents;
 
 use App\Services\DocumentService;
+use App\Support\WithUnifiedPagination;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -12,8 +13,15 @@ use Livewire\Component;
 #[Title('Documentos')]
 class Index extends Component
 {
+    use WithUnifiedPagination;
+
     #[Url]
     public string $q = '';
+
+    public function updatedQ(): void
+    {
+        $this->resetPage();
+    }
 
     public function inhabilitar(string $id, DocumentService $service): void
     {
@@ -25,7 +33,7 @@ class Index extends Component
     public function render(DocumentService $service)
     {
         return view('livewire.documents.index', [
-            'documents' => $service->list($this->q ?: null),
+            'documents' => $this->paginateCollection($service->list($this->q ?: null)),
         ]);
     }
 }

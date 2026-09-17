@@ -91,6 +91,7 @@
                 </tbody>
             </table>
         </div>
+        <x-table-pagination :paginator="$audits" :perPage="$perPage" :customPerPage="$customPerPage" />
     </div>
 </div>
 

@@ -5,6 +5,7 @@ namespace App\Livewire\Security;
 use App\Http\Middleware\VerifyUserSessionAndIp;
 use App\Services\SecurityService;
 use App\Services\UserService;
+use App\Support\WithUnifiedPagination;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -13,6 +14,8 @@ use Livewire\Component;
 #[Title('Sesiones')]
 class Sessions extends Component
 {
+    use WithUnifiedPagination;
+
     public function forceLogout(string $id, UserService $users): void
     {
         abort_unless(auth()->user()->hasPermission('security.force_logout'), 403);
@@ -27,7 +30,7 @@ class Sessions extends Component
     public function render(SecurityService $security)
     {
         return view('livewire.security.sessions', [
-            'sessions' => $security->sessions(),
+            'sessions' => $this->paginateCollection($security->sessions()),
         ]);
     }
 }

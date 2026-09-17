@@ -82,6 +82,7 @@
                 @endforelse
                 </tbody>
             </table>
+            <x-table-pagination :paginator="$sessions" :perPage="$perPage" :customPerPage="$customPerPage" />
         </div>
     </div>
 </div>

@@ -3,6 +3,7 @@
 namespace App\Livewire\Proceedings;
 
 use App\Services\ProceedingService;
+use App\Support\WithUnifiedPagination;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -11,6 +12,8 @@ use Livewire\Component;
 #[Title('Detalle de expediente')]
 class Show extends Component
 {
+    use WithUnifiedPagination;
+
     public string $proceedingId = '';
 
     public string $sub_code = '';
@@ -36,8 +39,11 @@ class Show extends Component
 
     public function render(ProceedingService $service)
     {
+        $proceeding = $service->find($this->proceedingId);
+
         return view('livewire.proceedings.show', [
-            'proceeding' => $service->find($this->proceedingId),
+            'proceeding' => $proceeding,
+            'documents' => $this->paginateCollection($proceeding->documents ?? []),
         ]);
     }
 }

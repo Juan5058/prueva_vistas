@@ -61,6 +61,7 @@
                 @endforelse
                 </tbody>
             </table>
+            <x-table-pagination :paginator="$logs" :perPage="$perPage" :customPerPage="$customPerPage" />
         </div>
     </div>
 </div>
