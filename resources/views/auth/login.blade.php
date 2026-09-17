@@ -1,78 +1,177 @@
 <x-layouts.guest>
 @section('title', 'Ingreso TRD')
-<div class="min-h-screen flex flex-col justify-center items-center p-4 relative">
-    <div class="w-full max-w-md relative z-10">
-        <div class="text-center mb-6">
-            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600 text-white mb-3">
-                <x-icon name="book" class="w-7 h-7" />
+<div style="height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2.75rem 1rem 1rem 1rem; box-sizing: border-box; overflow: hidden;">
+
+    {{-- Tarjeta principal glassmorphism compacta --}}
+    <div style="width: 100%; max-width: 390px;
+                background: rgba(15, 23, 42, 0.45);
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 1.25rem;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                overflow: visible; position: relative;">
+
+        {{-- Logo circular solapado en la parte superior --}}
+        <div style="display: flex; justify-content: center; margin-top: -42px; margin-bottom: 0;">
+            <div style="width: 84px; height: 84px; border-radius: 50%; background: #ffffff;
+                        border: 3px solid rgba(255, 255, 255, 0.5);
+                        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+                        display: flex; align-items: center; justify-content: center;
+                        overflow: hidden; flex-shrink: 0;">
+                <img src="/images/logo-trd.jpg" alt="Logo TRD"
+                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             </div>
-            <h1 class="text-xl font-bold text-white tracking-tight">Sistema de Gestión e Inventario TRD</h1>
-            <p class="text-xs text-slate-400 mt-1">Tablas de Retención Documental · Laravel 13</p>
         </div>
 
-        @if(session('security_alert'))
-            <div class="mb-5 p-4 rounded-2xl bg-white border-2 border-rose-500 text-center">
-                <h2 class="text-sm font-bold text-slate-900 mb-2">
-                    {{ session('security_alert.code') === 'IP_NOT_AUTHORIZED' ? 'ALERTA DE SEGURIDAD: IP NO AUTORIZADA' : 'SESIÓN FINALIZADA POR SEGURIDAD' }}
-                </h2>
-                <p class="text-xs text-rose-800 font-mono bg-rose-50 border border-rose-200 rounded-xl p-3">{{ session('security_alert.message') }}</p>
-            </div>
-        @endif
+        {{-- Contenido interno de la tarjeta --}}
+        <div style="padding: 0.65rem 1.5rem 1.25rem 1.5rem;">
 
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-8">
+            {{-- Título --}}
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <h1 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0 0 2px 0; letter-spacing: -0.02em; text-shadow: 0 2px 4px rgba(0,0,0,0.6);">
+                    Sistema de Gestión TRD
+                </h1>
+                <p style="font-size: 0.68rem; color: #cbd5e1; margin: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+                    Tablas de Retención Documental · Laravel 13
+                </p>
+            </div>
+
+            @if(session('security_alert'))
+                <div style="margin-bottom: 0.75rem; padding: 0.6rem; border-radius: 0.6rem; background: rgba(244, 63, 94, 0.25); border: 1px solid #f43f5e; text-align: center; backdrop-filter: blur(8px);">
+                    <h2 style="font-size: 0.75rem; font-weight: 700; color: #fecdd3; margin: 0 0 0.25rem 0;">
+                        {{ session('security_alert.code') === 'IP_NOT_AUTHORIZED' ? 'ALERTA: IP NO AUTORIZADA' : 'SESIÓN FINALIZADA' }}
+                    </h2>
+                    <p style="font-size: 0.65rem; color: #ffe4e6; font-family: monospace; margin: 0;">{{ session('security_alert.message') }}</p>
+                </div>
+            @endif
+
             @if($errors->any())
-                <div class="mb-5 p-3 rounded-xl bg-rose-950/50 border border-rose-800/80 text-rose-300 text-xs">
-                    <span class="font-semibold block text-rose-200">Acceso Denegado</span>
+                <div style="margin-bottom: 0.75rem; padding: 0.5rem; border-radius: 0.6rem; background: rgba(244, 63, 94, 0.25); border: 1px solid #f43f5e; color: #fecdd3; font-size: 0.68rem; backdrop-filter: blur(8px);">
+                    <span style="font-weight: 700; display: block;">Acceso Denegado</span>
                     {{ $errors->first() }}
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login.store') }}" class="space-y-4" id="login-form">
+            {{-- Formulario --}}
+            <form method="POST" action="{{ route('login.store') }}" id="login-form"
+                  style="display: flex; flex-direction: column; gap: 0.65rem;">
                 @csrf
+
+                {{-- Email --}}
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Correo Electrónico Institucional</label>
-                    <input id="login-input-email" name="email" type="email" required value="{{ old('email', 'admin@trd.gob') }}"
-                           class="w-full px-3.5 py-2.5 bg-slate-950/70 border border-slate-700 rounded-xl text-white text-xs">
+                    <label style="display: block; font-size: 0.6rem; font-weight: 700; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.25rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+                        Correo Electrónico
+                    </label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.8rem;">✉</span>
+                        <input id="login-input-email" name="email" type="email" required
+                               value="{{ old('email', 'admin@trd.gob') }}"
+                               style="width: 100%; padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+                                      background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.25);
+                                      border-radius: 0.65rem; color: #ffffff; font-size: 0.75rem;
+                                      box-sizing: border-box; outline: none; font-family: inherit;
+                                      transition: all 0.2s;"
+                               onfocus="this.style.borderColor='#3b82f6'; this.style.background='rgba(15, 23, 42, 0.8)'; this.style.boxShadow='0 0 10px rgba(59, 130, 246, 0.5)';"
+                               onblur="this.style.borderColor='rgba(255, 255, 255, 0.25)'; this.style.background='rgba(15, 23, 42, 0.5)'; this.style.boxShadow='none';">
+                    </div>
                 </div>
+
+                {{-- Password --}}
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Contraseña de Acceso</label>
-                    <input id="login-input-password" name="password" type="password" required
-                           class="w-full px-3.5 py-2.5 bg-slate-950/70 border border-slate-700 rounded-xl text-white text-xs">
+                    <label style="display: block; font-size: 0.6rem; font-weight: 700; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.25rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
+                        Contraseña
+                    </label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.8rem;">&#128274;</span>
+                        <input id="login-input-password" name="password" type="password" required
+                               style="width: 100%; padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+                                      background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.25);
+                                      border-radius: 0.65rem; color: #ffffff; font-size: 0.75rem;
+                                      box-sizing: border-box; outline: none; font-family: inherit;
+                                      transition: all 0.2s;"
+                               onfocus="this.style.borderColor='#3b82f6'; this.style.background='rgba(15, 23, 42, 0.8)'; this.style.boxShadow='0 0 10px rgba(59, 130, 246, 0.5)';"
+                               onblur="this.style.borderColor='rgba(255, 255, 255, 0.25)'; this.style.background='rgba(15, 23, 42, 0.5)'; this.style.boxShadow='none';">
+                    </div>
                 </div>
-                <div class="p-2.5 rounded-lg bg-slate-950/50 border border-slate-800/80 text-[11px] text-slate-400 flex items-center justify-between font-mono">
+
+                {{-- IP --}}
+                <div style="padding: 0.35rem 0.65rem; border-radius: 0.5rem; background: rgba(15, 23, 42, 0.45); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.62rem; color: #cbd5e1; display: flex; align-items: center; justify-content: space-between; font-family: monospace;">
                     <span>IP Solicitante:</span>
-                    <span class="text-blue-400 font-semibold">{{ $currentIp ?? '127.0.0.1' }}</span>
+                    <span style="color: #60a5fa; font-weight: 700;">{{ $currentIp ?? '127.0.0.1' }}</span>
                 </div>
-                <button class="w-full mt-2 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2">
+
+                {{-- Botón --}}
+                <button type="submit"
+                        style="width: 100%; padding: 0.65rem; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white;
+                               font-size: 0.75rem; font-weight: 700; border-radius: 0.65rem;
+                               border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer; letter-spacing: 0.05em;
+                               text-transform: uppercase; transition: all 0.2s;
+                               box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+                               font-family: inherit; margin-top: 0.15rem;"
+                        onmouseover="this.style.background='linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)'; this.style.boxShadow='0 6px 20px rgba(37, 99, 235, 0.6)';"
+                        onmouseout="this.style.background='linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)'; this.style.boxShadow='0 4px 15px rgba(37, 99, 235, 0.4)';">
                     Ingresar al Sistema TRD
-                    <x-icon name="arrow" class="w-3.5 h-3.5" />
                 </button>
             </form>
 
-            <div class="mt-6 pt-5 border-t border-slate-800">
-                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2.5">Cuentas de demostración (RBAC)</p>
-                <div class="space-y-2">
+            {{-- Separador --}}
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin: 0.75rem 0 0.5rem 0;">
+                <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.18);"></div>
+                <span style="font-size: 0.62rem; color: #cbd5e1; white-space: nowrap;">Accesos rápidos</span>
+                <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.18);"></div>
+            </div>
+
+            {{-- Cuentas RBAC --}}
+            <div style="background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 0.65rem; padding: 0.5rem 0.65rem;">
+                <p style="font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #cbd5e1; margin: 0 0 0.35rem 0;">
+                    Cuentas de demostración (RBAC)
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
                     @foreach([
-                        ['admin@trd.gob', 'admin123', 'Super Admin', 'Todos los permisos', 'blue'],
-                        ['lider@trd.gob', 'lider123', 'Líder Ambiental', 'Gestión TRD y documentos', 'emerald'],
-                        ['aprendiz@trd.gob', 'aprendiz123', 'Aprendiz', 'Consulta y bitácoras', 'amber'],
+                        ['admin@trd.gob', 'admin123', 'Super Admin', 'Todos los permisos', '#60a5fa'],
+                        ['lider@trd.gob', 'lider123', 'Líder Ambiental', 'Gestión TRD y documentos', '#34d399'],
+                        ['aprendiz@trd.gob', 'aprendiz123', 'Aprendiz', 'Consulta y bitácoras', '#fbbf24'],
                     ] as [$email, $pass, $label, $hint, $color])
-                        <button type="button" class="quick-login w-full text-left p-2 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-xs flex items-center justify-between"
-                                data-email="{{ $email }}" data-password="{{ $pass }}">
+                        <button type="button" class="quick-login"
+                                data-email="{{ $email }}" data-password="{{ $pass }}"
+                                style="width: 100%; text-align: left; padding: 0.35rem 0.45rem; border-radius: 0.45rem;
+                                       background: transparent; border: 1px solid transparent;
+                                       font-size: 0.68rem; display: flex; align-items: center;
+                                       justify-content: space-between; cursor: pointer; color: inherit; font-family: inherit; transition: background 0.15s;"
+                                onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.borderColor='rgba(255, 255, 255, 0.2)';"
+                                onmouseout="this.style.background='transparent'; this.style.borderColor='transparent';">
                             <div>
-                                <div class="text-slate-200 font-medium">{{ $label }}</div>
-                                <div class="text-[10px] text-slate-400">{{ $email }} · {{ $hint }}</div>
+                                <span style="color: #ffffff; font-weight: 600;">{{ $label }}</span>
+                                <span style="color: #cbd5e1; font-size: 0.58rem; margin-left: 0.35rem;">{{ $hint }}</span>
                             </div>
-                            <span class="text-[10px] font-mono bg-{{ $color }}-500/20 text-{{ $color }}-300 px-1.5 py-0.5 rounded">{{ $pass }}</span>
+                            <span style="font-size: 0.6rem; font-family: monospace; color: {{ $color }}; font-weight: 700; background: {{ $color }}25; padding: 0.08rem 0.35rem; border-radius: 0.25rem;">{{ $pass }}</span>
                         </button>
                     @endforeach
                 </div>
             </div>
+
+            {{-- Footer --}}
+            <p style="margin-top: 0.5rem; text-align: center; font-size: 0.6rem; color: #cbd5e1;">
+                &#11044; Acceso protegido · VerifyUserSessionAndIp
+            </p>
         </div>
-        <p class="mt-4 text-center text-[11px] text-slate-500 flex items-center justify-center gap-1.5">
-            <x-icon name="shield" class="w-3.5 h-3.5 text-blue-500" />
-            Acceso protegido por middleware VerifyUserSessionAndIp
-        </p>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.quick-login').forEach((button) => {
+            button.addEventListener('click', () => {
+                const email = document.getElementById('login-input-email');
+                const password = document.getElementById('login-input-password');
+                if (email && password) {
+                    email.value = button.dataset.email;
+                    password.value = button.dataset.password;
+                    document.getElementById('login-form')?.submit();
+                }
+            });
+        });
+    });
+</script>
 </x-layouts.guest>

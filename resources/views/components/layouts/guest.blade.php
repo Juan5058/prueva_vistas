@@ -6,7 +6,7 @@
     <title>@yield('title', 'Sistema TRD')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
+<body class="h-screen w-screen overflow-hidden text-slate-100 antialiased" style="background-image: url('/images/fondo-lg.jpg'); background-size: 100% 100%; background-position: center; background-repeat: no-repeat; margin: 0; padding: 0;">
     {{ $slot }}
 </body>
 </html>
