@@ -50,11 +50,29 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                 @forelse($structures as $structure)
+                    @php
+                        $seriesCount = count($structure->series ?? []);
+                        $seriesPill = $seriesCount === 0
+                            ? 'bg-slate-100 text-slate-500 border-slate-200'
+                            : ($seriesCount >= 10 ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : 'bg-blue-100 text-blue-700 border-blue-200');
+                    @endphp
                     <tr class="hover:bg-slate-50/60 transition-colors">
-                        <td class="p-3.5 font-mono font-bold text-blue-700">{{ $structure->section_code }}</td>
+                        <td class="p-3.5">
+                            <span class="inline-flex items-center font-mono font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md text-[11px] tracking-wide">
+                                {{ $structure->section_code }}
+                            </span>
+                        </td>
                         <td class="p-3.5 font-semibold text-slate-900">{{ $structure->section_name }}</td>
-                        <td class="p-3.5 text-slate-600">{{ $structure->version }}</td>
-                        <td class="p-3.5 font-mono text-slate-600">{{ count($structure->series ?? []) }}</td>
+                        <td class="p-3.5">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-500 border border-slate-200 font-mono">
+                                v{{ $structure->version }}
+                            </span>
+                        </td>
+                        <td class="p-3.5">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold border {{ $seriesPill }}">
+                                {{ $seriesCount }} {{ $seriesCount === 1 ? 'serie' : 'series' }}
+                            </span>
+                        </td>
                         <td class="p-3.5">
                             <div class="flex justify-end gap-1">
                                 <x-icon-action href="{{ route('trd.show', $structure->getKey()) }}" tooltip="Ver detalle" variant="info">

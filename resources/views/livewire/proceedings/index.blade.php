@@ -44,12 +44,35 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                 @forelse($proceedings as $proceeding)
+                    @php
+                        $state = strtolower($proceeding->state ?? '');
+                        [$stateBadge] = match(true) {
+                            str_contains($state, 'abierto') || str_contains($state, 'activo') || str_contains($state, 'open')
+                                => ['bg-emerald-100 text-emerald-700 border-emerald-200'],
+                            str_contains($state, 'cerrado') || str_contains($state, 'closed')
+                                => ['bg-slate-100 text-slate-600 border-slate-200'],
+                            str_contains($state, 'archivado') || str_contains($state, 'archive')
+                                => ['bg-purple-100 text-purple-700 border-purple-200'],
+                            str_contains($state, 'suspendido') || str_contains($state, 'pend')
+                                => ['bg-amber-100 text-amber-700 border-amber-200'],
+                            default => ['bg-slate-100 text-slate-600 border-slate-200'],
+                        };
+                    @endphp
                     <tr class="hover:bg-slate-50/60 transition-colors">
-                        <td class="p-3.5 font-mono font-bold text-blue-700">{{ $proceeding->file_number }}</td>
-                        <td class="p-3.5 font-semibold text-slate-900">{{ $proceeding->name }}</td>
-                        <td class="p-3.5 text-slate-600">{{ $proceeding->serie_name }}</td>
                         <td class="p-3.5">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                            <span class="inline-flex items-center gap-1 font-mono font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md text-[11px]">
+                                📁 {{ $proceeding->file_number }}
+                            </span>
+                        </td>
+                        <td class="p-3.5 font-semibold text-slate-900">{{ $proceeding->name }}</td>
+                        <td class="p-3.5 text-slate-500 text-[11px]">
+                            <span class="flex items-center gap-1">
+                                <span class="text-slate-400">·</span> {{ $proceeding->serie_name }}
+                            </span>
+                        </td>
+                        <td class="p-3.5">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border {{ $stateBadge }}">
+                                <span class="w-1.5 h-1.5 rounded-full {{ str_contains(strtolower($proceeding->state ?? ''), 'abierto') || str_contains(strtolower($proceeding->state ?? ''), 'activo') ? 'bg-emerald-500' : 'bg-slate-400' }}"></span>
                                 {{ $proceeding->state }}
                             </span>
                         </td>

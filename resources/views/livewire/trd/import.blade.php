@@ -47,15 +47,40 @@
             </thead>
             <tbody class="divide-y divide-slate-100">
             @forelse($imports as $import)
+                @php
+                    $s = strtolower($import->status ?? '');
+                    $importBadge = match(true) {
+                        str_contains($s, 'done') || str_contains($s, 'complet') || str_contains($s, 'success')
+                            => 'bg-emerald-100 text-emerald-700 border-emerald-200',
+                        str_contains($s, 'process') || str_contains($s, 'running')
+                            => 'bg-blue-100 text-blue-700 border-blue-200',
+                        str_contains($s, 'error') || str_contains($s, 'fail')
+                            => 'bg-rose-100 text-rose-700 border-rose-200',
+                        default => 'bg-amber-100 text-amber-700 border-amber-200',
+                    };
+                    $errCount = count($import->error_log ?? []);
+                @endphp
                 <tr class="hover:bg-slate-50/60 transition-colors">
                     <td class="p-3.5 font-medium text-slate-900">{{ $import->file_name }}</td>
                     <td class="p-3.5 text-center">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold border {{ $importBadge }}">
                             {{ $import->status }}
                         </span>
                     </td>
-                    <td class="p-3.5 text-center font-mono text-slate-700">{{ $import->processed_rows }}/{{ $import->total_rows }}</td>
-                    <td class="p-3.5 text-center font-mono text-slate-700">{{ count($import->error_log ?? []) }}</td>
+                    <td class="p-3.5 text-center">
+                        <span class="font-mono text-slate-700 text-[11px]">
+                            {{ $import->processed_rows }}<span class="text-slate-400">/</span>{{ $import->total_rows }}
+                        </span>
+                    </td>
+                    <td class="p-3.5 text-center">
+                        @if($errCount > 0)
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-700 border border-rose-200">
+                                ⚠ {{ $errCount }}
+                            </span>
+                        @else
+                            <span class="text-slate-400 text-[11px]">—</span>
+                        @endif
+                    </td>
                 </tr>
             @empty
                 <tr><td colspan="4" class="p-8 text-center text-slate-500">Sin importaciones registradas.</td></tr>

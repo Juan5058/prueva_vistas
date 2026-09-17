@@ -44,17 +44,35 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                 @forelse($documents as $document)
+                    @php
+                        $support = strtolower($document->support ?? '');
+                        $isElectronic = str_contains($support, 'electr') || str_contains($support, 'digit');
+                        $supportBadge = $isElectronic
+                            ? 'bg-blue-100 text-blue-700 border-blue-200'
+                            : 'bg-amber-100 text-amber-700 border-amber-200';
+                        $supportIcon = $isElectronic ? '💾' : '📄';
+                    @endphp
                     <tr class="hover:bg-slate-50/60 transition-colors">
-                        <td class="p-3.5 font-semibold text-slate-900">{{ $document->name }}</td>
-                        <td class="p-3.5 font-mono text-blue-700 font-bold">{{ $document->proceeding?->file_number ?: '—' }}</td>
+                        <td class="p-3.5">
+                            <span class="font-semibold text-slate-900">{{ $document->name }}</span>
+                        </td>
+                        <td class="p-3.5">
+                            @if($document->proceeding?->file_number)
+                                <span class="inline-flex items-center gap-1 font-mono font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md text-[11px]">
+                                    📁 {{ $document->proceeding->file_number }}
+                                </span>
+                            @else
+                                <span class="text-slate-400 text-[11px]">—</span>
+                            @endif
+                        </td>
                         <td class="p-3.5 text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700">
-                                {{ $document->document_type }}
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                                🗂 {{ $document->document_type }}
                             </span>
                         </td>
                         <td class="p-3.5 text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
-                                {{ $document->support }}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border {{ $supportBadge }}">
+                                {{ $supportIcon }} {{ $document->support }}
                             </span>
                         </td>
                         <td class="p-3.5">
