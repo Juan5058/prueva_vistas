@@ -63,6 +63,6 @@
                 </div>
             @endforeach
         </div>
-        <button class="px-4 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg">Guardar expediente</button>
+        <button class="px-4 py-2 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Guardar expediente</button>
     </form>
 </div>

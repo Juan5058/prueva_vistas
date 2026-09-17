@@ -1,7 +1,7 @@
 <div class="p-6 max-w-5xl mx-auto space-y-6">
     <div class="flex items-center justify-between pb-4 border-b">
         <div>
-            <p class="text-xs font-mono text-blue-700">{{ $structure->section_code }} · {{ $structure->version }}</p>
+            <p class="text-xs font-mono text-slate-700">{{ $structure->section_code }} · {{ $structure->version }}</p>
             <h2 class="text-xl font-bold">{{ $structure->section_name }}</h2>
         </div>
         @if(auth()->user()->hasPermission('trd.edit'))

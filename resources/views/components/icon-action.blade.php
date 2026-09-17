@@ -8,7 +8,7 @@
 @php
     $colors = [
         'neutral' => 'text-slate-600 hover:bg-slate-100',
-        'info' => 'text-blue-600 hover:bg-blue-50',
+        'info' => 'text-slate-700 hover:bg-slate-100',
         'danger' => 'text-rose-600 hover:bg-rose-50',
         'warning' => 'text-amber-700 hover:bg-amber-50',
     ];

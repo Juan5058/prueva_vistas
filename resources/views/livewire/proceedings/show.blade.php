@@ -1,12 +1,12 @@
 <div class="p-6 max-w-5xl mx-auto space-y-6">
     <div class="flex justify-between items-start pb-4 border-b">
         <div>
-            <p class="text-xs font-mono text-blue-700">{{ $proceeding->file_number }}</p>
+            <p class="text-xs font-mono text-slate-700">{{ $proceeding->file_number }}</p>
             <h2 class="text-xl font-bold">{{ $proceeding->name }}</h2>
             <p class="text-xs text-slate-500 mt-1">{{ $proceeding->serie_name }} / {{ $proceeding->sub_serie_name }} · {{ $proceeding->state }}</p>
         </div>
         @if(auth()->user()->hasPermission('documents.upload'))
-            <a href="{{ route('documents.create', ['proceeding_id' => $proceeding->getKey()]) }}" wire:navigate class="px-3 py-1.5 text-xs bg-blue-600 text-white rounded-lg">Cargar PDF</a>
+            <a href="{{ route('documents.create', ['proceeding_id' => $proceeding->getKey()]) }}" wire:navigate class="px-3 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-white rounded-lg">Cargar PDF</a>
         @endif
     </div>
     <p class="text-sm text-slate-600">{{ $proceeding->description }}</p>

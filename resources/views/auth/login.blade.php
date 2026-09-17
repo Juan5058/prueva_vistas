@@ -3,7 +3,7 @@
 <div class="min-h-screen flex flex-col justify-center items-center p-4 relative">
     <div class="w-full max-w-md relative z-10">
         <div class="text-center mb-6">
-            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600 text-white mb-3">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-slate-800 text-white mb-3">
                 <x-icon name="book" class="w-7 h-7" />
             </div>
             <h1 class="text-xl font-bold text-white tracking-tight">Sistema de Gestión e Inventario TRD</h1>
@@ -41,9 +41,9 @@
                 </div>
                 <div class="p-2.5 rounded-lg bg-slate-950/50 border border-slate-800/80 text-[11px] text-slate-400 flex items-center justify-between font-mono">
                     <span>IP Solicitante:</span>
-                    <span class="text-blue-400 font-semibold">{{ $currentIp ?? '127.0.0.1' }}</span>
+                    <span class="text-slate-200 font-semibold">{{ $currentIp ?? '127.0.0.1' }}</span>
                 </div>
-                <button class="w-full mt-2 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2">
+                <button class="w-full mt-2 py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2">
                     Ingresar al Sistema TRD
                     <x-icon name="arrow" class="w-3.5 h-3.5" />
                 </button>
@@ -70,7 +70,7 @@
             </div>
         </div>
         <p class="mt-4 text-center text-[11px] text-slate-500 flex items-center justify-center gap-1.5">
-            <x-icon name="shield" class="w-3.5 h-3.5 text-blue-500" />
+            <x-icon name="shield" class="w-3.5 h-3.5 text-slate-500" />
             Acceso protegido por middleware VerifyUserSessionAndIp
         </p>
     </div>

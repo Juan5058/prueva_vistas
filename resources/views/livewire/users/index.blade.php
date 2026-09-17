@@ -5,7 +5,7 @@
             <p class="text-xs text-slate-500">Roles: Super Admin, Líder Ambiental, Aprendiz</p>
         </div>
         @if(auth()->user()->hasPermission('users.create'))
-            <a href="{{ route('users.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-blue-600 rounded-lg">Nuevo usuario</a>
+            <a href="{{ route('users.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Nuevo usuario</a>
         @endif
     </div>
     <div class="bg-white border rounded-xl overflow-hidden">

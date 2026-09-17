@@ -5,7 +5,7 @@
             <p class="text-xs text-slate-500">PDF UUID, MIME application/pdf, tope 10 MB</p>
         </div>
         @if(auth()->user()->hasPermission('documents.upload'))
-            <a href="{{ route('documents.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-blue-600 rounded-lg">Cargar documento</a>
+            <a href="{{ route('documents.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Cargar documento</a>
         @endif
     </div>
     <input type="search" wire:model.live.debounce.400ms="q" placeholder="Buscar documento" class="px-3 py-2 text-xs border rounded-lg w-72">

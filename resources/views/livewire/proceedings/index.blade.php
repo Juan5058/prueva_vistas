@@ -5,7 +5,7 @@
             <p class="text-xs text-slate-500">Inventario archivístico vinculado a TRD</p>
         </div>
         @if(auth()->user()->hasPermission('proceedings.create'))
-            <a href="{{ route('proceedings.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-blue-600 rounded-lg">Abrir expediente</a>
+            <a href="{{ route('proceedings.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Abrir expediente</a>
         @endif
     </div>
     <input type="search" wire:model.live.debounce.400ms="q" placeholder="Buscar radicado o nombre" class="px-3 py-2 text-xs border rounded-lg w-72">

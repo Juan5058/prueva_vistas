@@ -9,7 +9,7 @@
                 <a href="{{ route('trd.import') }}" wire:navigate class="px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white">Importar CSV</a>
             @endif
             @if(auth()->user()->hasPermission('trd.create'))
-                <a href="{{ route('trd.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-blue-600 rounded-lg">Nueva TRD</a>
+                <a href="{{ route('trd.create') }}" wire:navigate class="px-3 py-1.5 text-xs text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Nueva TRD</a>
             @endif
         </div>
     </div>

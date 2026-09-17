@@ -30,48 +30,48 @@
     $currentIp = $currentIp ?? \App\Http\Middleware\VerifyUserSessionAndIp::clientIp(request());
     $navClass = function (bool $active) {
         return $active
-            ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30'
-            : 'text-slate-300 hover:bg-slate-800';
+            ? 'bg-slate-800 text-white'
+            : 'text-slate-300 hover:bg-slate-800 hover:text-white';
     };
 @endphp
 <div class="min-h-screen flex flex-col">
-    <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between sticky top-0 z-30">
+    <header class="h-16 bg-slate-900 border-b border-slate-800 px-6 flex items-center justify-between sticky top-0 z-30">
         <div class="flex items-center gap-4">
-            <button type="button" @click="toggleSidebar()" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100" title="Plegar menú">
+            <button type="button" @click="toggleSidebar()" class="p-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white" title="Plegar menú">
                 <x-icon name="panel" class="w-4 h-4" />
             </button>
             <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span class="text-xs font-semibold text-slate-700 tracking-tight">SISTEMA TRD EN LÍNEA</span>
+                <span class="text-xs font-semibold text-slate-200 tracking-tight">SISTEMA TRD EN LÍNEA</span>
             </div>
-            <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-600 font-mono">
-                <x-icon name="wifi" class="w-3.5 h-3.5 text-blue-600" />
+            <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs text-slate-300 font-mono">
+                <x-icon name="wifi" class="w-3.5 h-3.5 text-slate-400" />
                 <span>IP Origen:</span>
-                <span class="font-semibold text-slate-800">{{ $currentIp }}</span>
+                <span class="font-semibold text-white">{{ $currentIp }}</span>
                 @if($simulated)
-                    <span class="bg-amber-100 text-amber-800 text-[10px] px-1.5 rounded font-sans font-medium">Simulada</span>
+                    <span class="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 rounded font-sans font-medium">Simulada</span>
                 @endif
             </div>
-            <button type="button" @click="ipModal = true" class="text-xs text-blue-600 hover:underline flex items-center gap-1 font-medium">
+            <button type="button" @click="ipModal = true" class="text-xs text-slate-300 hover:text-white flex items-center gap-1 font-medium">
                 <x-icon name="shield" class="w-3.5 h-3.5" />
                 Probar Validación de IP
             </button>
         </div>
         <div class="flex items-center gap-4">
             <div class="hidden md:block text-right">
-                <div class="text-xs font-semibold text-slate-900">{{ $user->name }}</div>
-                <div class="text-[11px] text-slate-500 flex items-center justify-end gap-1.5 mt-0.5">
-                    <span class="bg-blue-50 text-blue-700 border border-blue-200 px-1.5 rounded text-[10px] font-medium uppercase">{{ $user->roleLabel() }}</span>
+                <div class="text-xs font-semibold text-white">{{ $user->name }}</div>
+                <div class="text-[11px] text-slate-400 flex items-center justify-end gap-1.5 mt-0.5">
+                    <span class="bg-slate-800 text-slate-200 border border-slate-700 px-1.5 rounded text-[10px] font-medium uppercase">{{ $user->roleLabel() }}</span>
                     <span>{{ $user->email }}</span>
                 </div>
             </div>
-            <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-xs uppercase">
+            <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold text-xs uppercase">
                 {{ mb_strtoupper(mb_substr($user->name, 0, 2)) }}
             </div>
-            <form method="POST" action="{{ route('logout') }}" class="border-l border-slate-200 pl-3">
+            <form method="POST" action="{{ route('logout') }}" class="border-l border-slate-700 pl-3">
                 @csrf
-                <button class="p-2 rounded-lg text-rose-600 hover:bg-rose-50" title="Cerrar sesión">
-                    <x-icon name="logout" class="w-4 h-4" />
+                <button type="submit" class="p-2 rounded-lg hover:bg-white/10" title="Cerrar sesión" style="color:#ef4444">
+                    <x-icon name="logout" class="w-5 h-5" style="color:#ef4444" />
                 </button>
             </form>
         </div>
@@ -81,7 +81,7 @@
         <aside class="bg-slate-900 text-slate-200 min-h-[calc(100vh-4rem)] flex flex-col border-r border-slate-800 transition-all duration-200"
                :class="collapsed ? 'w-[4.5rem]' : 'w-64'">
             <div class="p-4 border-b border-slate-800 flex items-center gap-3" :class="collapsed && 'justify-center'">
-                <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shrink-0">
+                <div class="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center text-slate-200 shrink-0">
                     <x-icon name="book" class="w-5 h-5" />
                 </div>
                 <div x-show="!collapsed" x-cloak>
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <nav class="flex-1 p-3 space-y-1.5 overflow-y-auto">
-                <a href="{{ route('dashboard') }}" wire:navigate title="Dashboard Limpio" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ $nav === 'dashboard' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}" :class="collapsed && 'justify-center px-2'">
+                <a href="{{ route('dashboard') }}" wire:navigate title="Dashboard Limpio" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ $nav === 'dashboard' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}" :class="collapsed && 'justify-center px-2'">
                     <x-icon name="dashboard" class="w-4 h-4 shrink-0" />
                     <span x-show="!collapsed" x-cloak>Dashboard Limpio</span>
                 </a>
@@ -192,12 +192,12 @@
             <input name="simulated_ip" x-ref="ip" value="{{ $simulated ?: $currentIp }}" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono">
             <div class="flex flex-wrap gap-2">
                 <button type="button" @click="$refs.ip.value = '127.0.0.1'" class="px-2.5 py-1 text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md">IP Local</button>
-                <button type="button" @click="$refs.ip.value = '192.168.1.55'" class="px-2.5 py-1 text-[11px] bg-blue-50 text-blue-700 border border-blue-200 rounded-md">Intranet</button>
+                <button type="button" @click="$refs.ip.value = '192.168.1.55'" class="px-2.5 py-1 text-[11px] bg-slate-100 text-slate-700 border border-slate-200 rounded-md">Intranet</button>
                 <button type="button" @click="$refs.ip.value = '201.55.99.1'" class="px-2.5 py-1 text-[11px] bg-rose-50 text-rose-700 border border-rose-200 rounded-md font-semibold">IP no autorizada</button>
             </div>
             <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
                 <button type="button" @click="ipModal = false" class="px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-100 rounded-lg">Cancelar</button>
-                <button class="px-4 py-1.5 text-xs font-semibold text-white bg-blue-600 rounded-lg">Aplicar IP y Probar</button>
+                <button class="px-4 py-1.5 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Aplicar IP y Probar</button>
             </div>
         </form>
     </div>

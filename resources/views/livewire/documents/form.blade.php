@@ -49,6 +49,6 @@
             @error('file') <p class="text-rose-600 text-xs">{{ $message }}</p> @enderror
             <div wire:loading wire:target="file" class="text-xs text-slate-500">Validando archivo...</div>
         </div>
-        <button class="px-4 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg">{{ $documentId ? 'Guardar cambios' : 'Registrar documento' }}</button>
+        <button class="px-4 py-2 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg">{{ $documentId ? 'Guardar cambios' : 'Registrar documento' }}</button>
     </form>
 </div>

@@ -5,7 +5,7 @@
             <p class="text-xs text-slate-500 mt-0.5">Estadísticas TRD y descarga PDF del acervo</p>
         </div>
         @if(auth()->user()->hasPermission('reports.download-pdf'))
-            <a href="{{ route('reports.download-pdf') }}" class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg">
+            <a href="{{ route('reports.download-pdf') }}" class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-white bg-slate-800 hover:bg-slate-700 rounded-lg">
                 <x-icon name="download" class="w-4 h-4" /> Descargar inventario PDF
             </a>
         @endif

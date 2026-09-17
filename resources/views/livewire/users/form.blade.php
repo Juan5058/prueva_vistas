@@ -29,6 +29,6 @@
             <input type="password" wire:model="password" class="mt-1 w-full px-3 py-2 text-xs border rounded-lg">
             @error('password') <p class="text-rose-600 text-xs">{{ $message }}</p> @enderror
         </div>
-        <button class="px-4 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg">Guardar usuario</button>
+        <button class="px-4 py-2 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg">Guardar usuario</button>
     </form>
 </div>
