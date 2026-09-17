@@ -27,22 +27,51 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                 @forelse($sessions as $session)
-                    <tr class="hover:bg-slate-50/60 transition-colors">
+                    @php
+                        $isMe = $session->getKey() === auth()->id();
+                        $initials = collect(explode(' ', $session->name))->take(2)->map(fn($w) => strtoupper($w[0]))->implode('');
+                    @endphp
+                    <tr class="hover:bg-slate-50/60 transition-colors {{ $isMe ? 'bg-emerald-50/20' : '' }}">
                         <td class="p-3.5">
-                            <p class="font-semibold text-slate-900">{{ $session->name }}</p>
-                            <p class="text-[11px] text-slate-500">{{ $session->email }}</p>
+                            <div class="flex items-center gap-3">
+                                {{-- Avatar de iniciales --}}
+                                <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center text-[11px] font-bold shrink-0 shadow-sm">
+                                    {{ $initials }}
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-slate-900 flex items-center gap-1.5">
+                                        {{ $session->name }}
+                                        @if($isMe)
+                                            <span class="inline-flex items-center gap-1 px-1.5 py-0 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                                Tú
+                                            </span>
+                                        @endif
+                                    </p>
+                                    <p class="text-[11px] text-slate-400 font-mono">{{ $session->email }}</p>
+                                </div>
+                            </div>
                         </td>
-                        <td class="p-3.5 text-center font-mono text-slate-700 font-semibold">{{ $session->current_ip ?: '—' }}</td>
-                        <td class="p-3.5 text-center font-mono text-slate-600">{{ \App\Support\FormatsDate::datetime($session->last_login_at) }}</td>
+                        <td class="p-3.5 text-center">
+                            @if($session->current_ip)
+                                <span class="inline-flex items-center gap-1 font-mono text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-md text-[11px] font-semibold">
+                                    <span class="text-slate-400">🌐</span> {{ $session->current_ip }}
+                                </span>
+                            @else
+                                <span class="text-slate-400 text-[11px]">—</span>
+                            @endif
+                        </td>
+                        <td class="p-3.5 text-center font-mono text-slate-500 text-[11px]">{{ \App\Support\FormatsDate::datetime($session->last_login_at) }}</td>
                         <td class="p-3.5">
                             <div class="flex justify-end">
-                                @if($session->getKey() !== auth()->id())
+                                @if(!$isMe)
                                     <x-icon-action tooltip="Cerrar sesión forzada" variant="danger" wire:click="forceLogout('{{ $session->getKey() }}')" wire:confirm="¿Cerrar la sesión de este usuario?">
                                         <x-icon name="logout" class="w-4 h-4" />
                                     </x-icon-action>
                                 @else
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                        Tu sesión actual
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                        Sesión activa
                                     </span>
                                 @endif
                             </div>

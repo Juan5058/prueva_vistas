@@ -27,15 +27,34 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                 @forelse($logs as $log)
-                    <tr class="hover:bg-slate-50/60 transition-colors">
+                    @php
+                        $status = strtolower($log->status ?? '');
+                        $isBlocked  = str_contains($status, 'block') || str_contains($status, 'deni');
+                        $isSuccess  = str_contains($status, 'success') || str_contains($status, 'login') || $status === 'success';
+                        $isMismatch = str_contains($status, 'mismatch') || str_contains($status, 'ip');
+                        $isLogout   = str_contains($status, 'logout') || str_contains($status, 'force');
+                        [$badge, $rowBg, $dot, $icon] = match(true) {
+                            $isBlocked  => ['bg-rose-100 text-rose-700 border-rose-200',   'bg-rose-50/30',    'bg-rose-500',    '🚫'],
+                            $isSuccess  => ['bg-emerald-100 text-emerald-700 border-emerald-200', 'bg-emerald-50/20', 'bg-emerald-500', '✔'],
+                            $isMismatch => ['bg-amber-100 text-amber-700 border-amber-200', 'bg-amber-50/20',   'bg-amber-500',   '⚠'],
+                            $isLogout   => ['bg-slate-100 text-slate-600 border-slate-200', '',                 'bg-slate-400',   '↩'],
+                            default     => ['bg-slate-100 text-slate-700 border-slate-200', '',                 'bg-slate-400',   '•'],
+                        };
+                    @endphp
+                    <tr class="transition-colors {{ $rowBg }} hover:brightness-95">
                         <td class="p-3.5">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-800 border border-slate-200">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border {{ $badge }}">
+                                <span class="text-[10px]">{{ $icon }}</span>
                                 {{ $log->status }}
                             </span>
                         </td>
-                        <td class="p-3.5 font-medium text-slate-900">{{ $log->user_email }}</td>
-                        <td class="p-3.5 font-mono text-center text-slate-700 font-semibold">{{ $log->ip_address }}</td>
-                        <td class="p-3.5 text-right font-mono text-slate-600">{{ \App\Support\FormatsDate::datetime($log->created_at) }}</td>
+                        <td class="p-3.5">
+                            <span class="font-medium text-slate-900">{{ $log->user_email }}</span>
+                        </td>
+                        <td class="p-3.5 text-center">
+                            <span class="font-mono text-slate-700 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md text-[11px] font-semibold">{{ $log->ip_address }}</span>
+                        </td>
+                        <td class="p-3.5 text-right font-mono text-slate-500 text-[11px]">{{ \App\Support\FormatsDate::datetime($log->created_at) }}</td>
                     </tr>
                 @empty
                     <tr><td colspan="4" class="p-8 text-center text-slate-500">Sin registros de eventos de seguridad.</td></tr>
