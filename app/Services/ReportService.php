@@ -55,49 +55,85 @@ class ReportService
         ];
     }
 
-    public function downloadInventory(): Response
+    public function downloadInventory(array $filters = []): Response
     {
         $metrics = $this->metrics();
-        $lines = [
-            'Generado: '.now()->format('d/m/Y H:i'),
-            '',
-            'KPIs',
-            'Expedientes: '.$metrics['kpis']['totalProceedings'],
-            'Documentos: '.$metrics['kpis']['totalDocuments'],
-            'Electronicos: '.$metrics['kpis']['totalElectronicDocuments'],
-            'Fisicos: '.$metrics['kpis']['totalPhysicalDocuments'],
-            'Secciones TRD: '.$metrics['kpis']['totalTrdSections'],
-            'Series: '.$metrics['kpis']['totalSeries'],
-            'Subseries: '.$metrics['kpis']['totalSubSeries'],
-            'Usuarios activos: '.$metrics['kpis']['totalActiveUsers'],
-            'Almacenamiento (bytes): '.$metrics['kpis']['totalStorageBytes'],
-            '',
-            'Soporte documental',
-        ];
+        $selected = (array) ($filters['reports'] ?? ['totales']);
+        $startDate = $filters['start_date'] ?? null;
+        $endDate = $filters['end_date'] ?? null;
 
-        foreach ($metrics['distribution']['bySupport'] as $row) {
-            $lines[] = $row['label'].': '.$row['count'].' ('.$row['percentage'].'%)';
+        $lines = [];
+        $lines[] = 'EMPRESA: COTRANSHUILA S.A.';
+        $lines[] = 'SISTEMA: Gestión Documental TRD y Archivo Oficial';
+        $lines[] = 'FECHA GENERACIÓN: '.now()->format('d/m/Y H:i');
+
+        if ($startDate || $endDate) {
+            $lines[] = 'PERÍODO CONSULTADO: '.($startDate ?: 'Inicio').' al '.($endDate ?: 'Fecha actual');
+        } else {
+            $lines[] = 'PERÍODO CONSULTADO: Historico completo';
         }
 
-        $lines[] = '';
-        $lines[] = 'Estado de expedientes';
+        $lines[] = 'REPORTES INCLUIDOS: '.implode(', ', array_map('strtoupper', $selected));
+        $lines[] = '---';
 
-        foreach ($metrics['distribution']['byState'] as $row) {
-            $lines[] = $row['label'].': '.$row['count'];
+        if (in_array('totales', $selected) || empty($selected)) {
+            $lines[] = '[SECCION] CONSOLIDADO GENERAL (KPIS)';
+            $lines[] = 'Expedientes Totales: '.$metrics['kpis']['totalProceedings'];
+            $lines[] = 'Documentos Totales: '.$metrics['kpis']['totalDocuments'];
+            $lines[] = 'Documentos Electrónicos: '.$metrics['kpis']['totalElectronicDocuments'];
+            $lines[] = 'Documentos Físicos: '.$metrics['kpis']['totalPhysicalDocuments'];
+            $lines[] = 'Secciones TRD Registradas: '.$metrics['kpis']['totalTrdSections'];
+            $lines[] = 'Series Documentales: '.$metrics['kpis']['totalSeries'];
+            $lines[] = 'Subseries Documentales: '.$metrics['kpis']['totalSubSeries'];
+            $lines[] = 'Usuarios Activos: '.$metrics['kpis']['totalActiveUsers'];
+            $lines[] = 'Almacenamiento Total (bytes): '.$metrics['kpis']['totalStorageBytes'];
+            $lines[] = '';
         }
 
-        $lines[] = '';
-        $lines[] = 'Disposicion final TRD';
-
-        foreach ($metrics['distribution']['byDisposition'] as $row) {
-            $lines[] = $row['label'].': '.$row['count'];
+        if (in_array('trd', $selected)) {
+            $lines[] = '[SECCION] ESTRUCTURAS TRD';
+            $lines[] = 'Total Secciones TRD Registradas: '.$metrics['kpis']['totalTrdSections'];
+            $lines[] = 'Total Series Documentales: '.$metrics['kpis']['totalSeries'];
+            $lines[] = 'Total Subseries Documentales: '.$metrics['kpis']['totalSubSeries'];
+            $lines[] = 'Disposición Final TRD:';
+            foreach ($metrics['distribution']['byDisposition'] as $row) {
+                $lines[] = '  • '.$row['label'].': '.$row['count'];
+            }
+            $lines[] = '';
         }
 
-        $binary = SimplePdf::fromLines('Inventario documental TRD', $lines);
+        if (in_array('expedientes', $selected)) {
+            $lines[] = '[SECCION] EXPEDIENTES DOCUMENTALES';
+            $lines[] = 'Total Expedientes: '.$metrics['kpis']['totalProceedings'];
+            $lines[] = 'Estado de Expedientes:';
+            foreach ($metrics['distribution']['byState'] as $row) {
+                $lines[] = '  • '.$row['label'].': '.$row['count'];
+            }
+            $lines[] = '';
+        }
+
+        if (in_array('documentos', $selected)) {
+            $lines[] = '[SECCION] DOCUMENTOS REGISTRADOS';
+            $lines[] = 'Total Documentos Registrados: '.$metrics['kpis']['totalDocuments'];
+            $lines[] = 'Distribución por Soporte Documental:';
+            foreach ($metrics['distribution']['bySupport'] as $row) {
+                $lines[] = '  • '.$row['label'].': '.$row['count'].' ('.$row['percentage'].'%)';
+            }
+            $lines[] = '';
+        }
+
+        if (in_array('usuarios', $selected)) {
+            $lines[] = '[SECCION] USUARIOS ACTIVOS Y SEGURIDAD';
+            $lines[] = 'Usuarios Activos en Plataforma: '.$metrics['kpis']['totalActiveUsers'];
+            $lines[] = 'Alertas de Bloqueo Registradas: '.$metrics['kpis']['totalBlockedAlerts'];
+            $lines[] = '';
+        }
+
+        $binary = SimplePdf::fromLines('COTRANSHUILA S.A. - Reporte de Inventario TRD', $lines);
 
         return response($binary, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="inventario-trd.pdf"',
+            'Content-Disposition' => 'attachment; filename="cotranshuila-reporte-trd.pdf"',
         ]);
     }
 
