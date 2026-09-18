@@ -29,7 +29,12 @@ class ProceedingService
 
     public function structures(): Collection
     {
-        return $this->trdRepository->all();
+        return $this->trdRepository->all()->where('is_active', true)->values();
+    }
+
+    public function forSerie(string $trdId, string $serieId): Collection
+    {
+        return $this->repository->forSerie($trdId, $serieId);
     }
 
     public function create(array $payload): Proceeding

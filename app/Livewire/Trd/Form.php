@@ -19,6 +19,8 @@ class Form extends Component
 
     public string $version = '';
 
+    public string $approved_at = '';
+
     public array $sub_sections = [];
 
     public array $series = [];
@@ -40,6 +42,7 @@ class Form extends Component
             $this->section_code = $structure->section_code;
             $this->section_name = $structure->section_name;
             $this->version = $structure->version;
+            $this->approved_at = $structure->approved_at?->format('Y-m-d') ?? '';
             $this->sub_sections = $structure->sub_sections ?: $this->sub_sections;
             $this->series = $structure->series ?: $this->series;
             $this->sub_series = $structure->sub_series ?: $this->sub_series;
@@ -69,9 +72,11 @@ class Form extends Component
             'section_code' => 'required|string|max:50',
             'section_name' => 'required|string|max:255',
             'version' => 'required|string|max:80',
+            'approved_at' => 'nullable|date',
         ]);
 
-        $payload = $this->only(['section_code', 'section_name', 'version', 'sub_sections', 'series', 'sub_series']);
+        $payload = $this->only(['section_code', 'section_name', 'version', 'approved_at', 'sub_sections', 'series', 'sub_series']);
+        $payload['approved_at'] = $this->approved_at !== '' ? $this->approved_at : null;
 
         if ($this->structureId) {
             $service->update($this->structureId, $payload);

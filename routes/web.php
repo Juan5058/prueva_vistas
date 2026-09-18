@@ -27,6 +27,9 @@ Route::middleware(['auth', 'trd.session'])->group(function () {
     Route::middleware('permission:trd.view')->group(function () {
         Route::get('/trd', Trd\Index::class)->name('trd.index');
         Route::get('/trd/{trdId}', Trd\Show::class)->name('trd.show');
+        Route::get('/trd/{trdId}/organo/{dependency}', Trd\Show::class)->name('trd.series');
+        Route::get('/trd/{trdId}/organo/{dependency}/serie/{serieId}', Trd\Show::class)->name('trd.holdings');
+        Route::get('/trd/{trdId}/organo/{dependency}/serie/{serieId}/expediente/{proceedingId}', Trd\Show::class)->name('trd.expediente');
     });
     Route::middleware('permission:trd.create')->get('/trd-nueva', Trd\Form::class)->name('trd.create');
     Route::middleware('permission:trd.edit')->get('/trd/{trd}/editar', Trd\Form::class)->name('trd.edit');

@@ -1,7 +1,7 @@
 <div class="p-6 max-w-5xl mx-auto space-y-6">
     <h2 class="text-xl font-bold">{{ $structureId ? 'Editar estructura TRD' : 'Creación de Estructura TRD' }}</h2>
     <form wire:submit="save" class="space-y-6">
-        <div class="bg-white border rounded-xl p-5 grid sm:grid-cols-3 gap-4">
+        <div class="bg-white border rounded-xl p-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
                 <label class="text-xs font-semibold">Código de sección</label>
                 <input wire:model="section_code" class="mt-1 w-full px-3 py-2 text-xs border rounded-lg">
@@ -14,6 +14,10 @@
             <div>
                 <label class="text-xs font-semibold">Versión</label>
                 <input wire:model="version" class="mt-1 w-full px-3 py-2 text-xs border rounded-lg">
+            </div>
+            <div>
+                <label class="text-xs font-semibold">Fecha de aprobación</label>
+                <input type="date" wire:model="approved_at" class="mt-1 w-full px-3 py-2 text-xs border rounded-lg">
             </div>
         </div>
         <div class="bg-white border rounded-xl p-5 space-y-3">

@@ -16,6 +16,16 @@ class ProceedingRepository
             ->get();
     }
 
+    public function forSerie(string $trdId, string $serieId): Collection
+    {
+        return Proceeding::query()
+            ->where('trd_structure_id', $trdId)
+            ->where('serie_id', $serieId)
+            ->withCount('documents')
+            ->orderBy('file_number')
+            ->get();
+    }
+
     public function find(string $id): Proceeding
     {
         return Proceeding::query()->findOrFail($id);

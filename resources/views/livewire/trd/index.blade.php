@@ -1,8 +1,9 @@
 <div class="p-6 max-w-7xl mx-auto space-y-6">
     <div class="flex items-center justify-between pb-4 border-b border-slate-200">
         <div>
-            <h2 class="text-xl font-bold">Estructuras TRD</h2>
-            <p class="text-xs text-slate-500">Series, retención y disposición final (CT / E / M / S)</p>
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Capa 1 de 4 · Control TRD</p>
+            <h2 class="text-xl font-bold">Tablas de Retención Documental</h2>
+            <p class="text-xs text-slate-500">Versión, fechas y activación. Clic en la sección para bajar a la estructura orgánica.</p>
         </div>
         <div class="flex gap-2">
             @if(auth()->user()->hasPermission('trd.import'))
@@ -18,32 +19,72 @@
         <table class="w-full text-xs">
             <thead class="bg-slate-50 text-slate-500">
                 <tr>
-                    <th class="text-left p-3">Código</th>
                     <th class="text-left p-3">Sección</th>
                     <th class="text-left p-3">Versión</th>
-                    <th class="text-left p-3">Series</th>
+                    <th class="text-left p-3">Creación</th>
+                    <th class="text-left p-3">Aprobación</th>
+                    <th class="text-center p-3">Activa</th>
                     <th class="p-3">Acciones</th>
                 </tr>
             </thead>
             <tbody>
             @forelse($structures as $structure)
-                <tr class="border-t border-slate-100">
-                    <td class="p-3 font-mono">{{ $structure->section_code }}</td>
-                    <td class="p-3 font-medium">{{ $structure->section_name }}</td>
-                    <td class="p-3">{{ $structure->version }}</td>
-                    <td class="p-3">{{ count($structure->series ?? []) }}</td>
+                @php $key = (string) $structure->getKey(); @endphp
+                <tr class="border-t border-slate-100 {{ $structure->is_active ? '' : 'bg-slate-50/80' }}">
+                    <td class="p-3">
+                        <a href="{{ route('trd.show', $key) }}" wire:navigate class="font-medium text-slate-900 hover:underline">{{ $structure->section_name }}</a>
+                        <div class="font-mono text-[11px] text-slate-500 mt-0.5">{{ $structure->section_code }} · {{ count($structure->series ?? []) }} series</div>
+                    </td>
+                    <td class="p-3">
+                        @if(auth()->user()->hasPermission('trd.edit'))
+                            <input wire:model="versions.{{ $key }}" class="w-36 px-2 py-1 border rounded-md">
+                        @else
+                            {{ $structure->version }}
+                        @endif
+                    </td>
+                    <td class="p-3 whitespace-nowrap">{{ \App\Support\FormatsDate::datetime($structure->created_at, 'd/m/Y') }}</td>
+                    <td class="p-3">
+                        @if(auth()->user()->hasPermission('trd.edit'))
+                            <input type="date" wire:model="approved.{{ $key }}" class="px-2 py-1 border rounded-md">
+                        @else
+                            {{ \App\Support\FormatsDate::datetime($structure->approved_at, 'd/m/Y') }}
+                        @endif
+                    </td>
+                    <td class="p-3 text-center">
+                        @if($structure->is_active)
+                            @if(auth()->user()->hasPermission('trd.edit'))
+                                <input type="checkbox" checked
+                                    wire:click="toggleActive('{{ $key }}')"
+                                    wire:confirm="¿Inhabilitar esta TRD? Solo un superusuario podrá reactivarla."
+                                    class="rounded border-slate-300"
+                                    title="Inhabilitar">
+                            @else
+                                <span class="text-emerald-700 font-semibold">Sí</span>
+                            @endif
+                        @elseif(auth()->user()->isSuperAdmin())
+                            <input type="checkbox"
+                                wire:click="toggleActive('{{ $key }}')"
+                                class="rounded border-slate-300"
+                                title="Reactivar (solo superusuario)">
+                        @else
+                            <span class="text-slate-500">No · solo superusuario</span>
+                        @endif
+                    </td>
                     <td class="p-3">
                         <div class="flex justify-end gap-1">
-                            <x-icon-action href="{{ route('trd.show', $structure->getKey()) }}" tooltip="Ver detalle" variant="info">
-                                <x-icon name="eye" class="w-4 h-4" />
-                            </x-icon-action>
                             @if(auth()->user()->hasPermission('trd.edit'))
-                                <x-icon-action href="{{ route('trd.edit', $structure->getKey()) }}" tooltip="Editar" variant="neutral">
+                                <x-icon-action tooltip="Guardar parametrización" variant="info" wire:click="saveControl('{{ $key }}')">
+                                    <x-icon name="check" class="w-4 h-4" />
+                                </x-icon-action>
+                                <x-icon-action href="{{ route('trd.edit', $key) }}" tooltip="Editar estructura" variant="neutral">
                                     <x-icon name="pencil" class="w-4 h-4" />
                                 </x-icon-action>
                             @endif
+                            <x-icon-action href="{{ route('trd.show', $key) }}" tooltip="Capa 2 · Órgano" variant="info">
+                                <x-icon name="eye" class="w-4 h-4" />
+                            </x-icon-action>
                             @if(auth()->user()->hasPermission('trd.delete'))
-                                <x-icon-action tooltip="Inhabilitar" variant="danger" wire:click="inhabilitar('{{ $structure->getKey() }}')" wire:confirm="¿Inhabilitar esta TRD con is_deleted: true?">
+                                <x-icon-action tooltip="Dar de baja (is_deleted)" variant="danger" wire:click="inhabilitar('{{ $key }}')" wire:confirm="¿Dar de baja esta TRD con is_deleted: true?">
                                     <x-icon name="trash" class="w-4 h-4" />
                                 </x-icon-action>
                             @endif
@@ -51,7 +92,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="5" class="p-6 text-center text-slate-500">No hay estructuras TRD.</td></tr>
+                <tr><td colspan="6" class="p-6 text-center text-slate-500">No hay estructuras TRD.</td></tr>
             @endforelse
             </tbody>
         </table>

@@ -20,6 +20,7 @@ class TrdStructure extends Model
         'series',
         'sub_series',
         'version',
+        'approved_at',
         'is_active',
         'is_deleted',
         'deleted_at',
@@ -32,6 +33,7 @@ class TrdStructure extends Model
             'series' => 'array',
             'sub_series' => 'array',
             'is_active' => 'boolean',
+            'approved_at' => 'datetime',
             'is_deleted' => 'boolean',
             'deleted_at' => 'datetime',
         ];
@@ -104,5 +106,20 @@ class TrdStructure extends Model
             'series' => $series,
             'sub_series' => $subSeries,
         ];
+    }
+
+    public function dependencyName(string $dependency): string
+    {
+        if ($dependency === '' || $dependency === 'seccion') {
+            return $this->section_name;
+        }
+
+        foreach ($this->sub_sections ?? [] as $row) {
+            if (($row['sub_section_id'] ?? '') === $dependency) {
+                return (string) ($row['sub_section_name'] ?? $this->section_name);
+            }
+        }
+
+        return $this->section_name;
     }
 }

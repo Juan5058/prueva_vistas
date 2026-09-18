@@ -67,6 +67,14 @@ class User extends Authenticatable
             || in_array($this->role, ['super_admin', 'admin'], true);
     }
 
+    public function isSuperAdmin(): bool
+    {
+        $roles = $this->roles ?? [];
+
+        return in_array(RoleCatalog::SUPER_ADMIN, $roles, true)
+            || $this->role === RoleCatalog::SUPER_ADMIN;
+    }
+
     public function hasPermission(string $permission): bool
     {
         if ($this->isAdmin()) {

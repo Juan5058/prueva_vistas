@@ -13,6 +13,8 @@ Sistema de gestión e inventario TRD en **Laravel 13**, **Livewire 3 + Alpine**,
 
 El archivo `.env` **no está en GitHub** (contiene secretos). Cada persona genera su propia `APP_KEY`. Si aparece `MissingAppKeyException`, falta ese paso.
 
+`vendor/` del contenedor vive en el volumen Docker `vendor_data` (más rápido en Windows). El `vendor` de tu disco sigue para el editor. Si cambia `composer.json`, instala **dentro** del contenedor. No uses `docker compose down -v` o borrarás Mongo y ese `vendor`.
+
 ```bash
 git clone https://github.com/alejandrocasta19/Software-laravel.git
 cd Software-laravel
