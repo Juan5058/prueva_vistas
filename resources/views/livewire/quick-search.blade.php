@@ -5,7 +5,7 @@
         </span>
         <input
             id="global-search-input"
-            type="search"
+            type="text"
             wire:model="q"
             placeholder="Buscar (Código, Nombre, Expediente, Persona...)"
             maxlength="{{ \App\Support\SearchQuery::MAX_LENGTH }}"
