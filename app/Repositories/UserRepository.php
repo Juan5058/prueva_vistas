@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Support\SearchQuery;
 use Illuminate\Support\Collection;
 
 class UserRepository
@@ -10,6 +11,14 @@ class UserRepository
     public function all(): Collection
     {
         return User::query()->orderBy('created_at', 'desc')->get();
+    }
+
+    /**
+     * @param  list<string>  $columns
+     */
+    public function suggest(string $term, array $columns, bool $prefix = false, int $limit = SearchQuery::MAX_RESULTS): Collection
+    {
+        return SearchQuery::applyLimited(User::query(), $term, $columns, $prefix, $limit)->get();
     }
 
     public function find(string $id): User

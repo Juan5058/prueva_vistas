@@ -6,6 +6,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SecurityController;
 use App\Livewire\Dashboard;
 use App\Livewire\Documents;
+use App\Livewire\GlobalSearchResults;
 use App\Livewire\Proceedings;
 use App\Livewire\Reports;
 use App\Livewire\Security;
@@ -21,6 +22,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth', 'trd.session'])->group(function () {
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
     Route::get('/', Dashboard::class)->name('dashboard');
+    Route::get('/resultados-globales', GlobalSearchResults::class)->name('search.global');
 
     Route::post('/security/simulate-ip', [SecurityController::class, 'simulateIp'])->name('security.simulate-ip');
 

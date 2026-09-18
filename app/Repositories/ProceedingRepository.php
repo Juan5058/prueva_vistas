@@ -16,6 +16,14 @@ class ProceedingRepository
             ->get();
     }
 
+    /**
+     * @param  list<string>  $columns
+     */
+    public function suggest(string $term, array $columns, bool $prefix = false, int $limit = SearchQuery::MAX_RESULTS): Collection
+    {
+        return SearchQuery::applyLimited(Proceeding::query(), $term, $columns, $prefix, $limit)->get();
+    }
+
     public function forSerie(string $trdId, string $serieId): Collection
     {
         return Proceeding::query()

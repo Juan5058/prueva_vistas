@@ -17,6 +17,14 @@ class DocumentRepository
             ->get();
     }
 
+    /**
+     * @param  list<string>  $columns
+     */
+    public function suggest(string $term, array $columns, bool $prefix = false, int $limit = SearchQuery::MAX_RESULTS): Collection
+    {
+        return SearchQuery::applyLimited(Document::query(), $term, $columns, $prefix, $limit)->get();
+    }
+
     public function find(string $id): Document
     {
         return Document::query()->findOrFail($id);

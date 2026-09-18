@@ -16,6 +16,14 @@ class TrdRepository
             ->get();
     }
 
+    /**
+     * @param  list<string>  $columns
+     */
+    public function suggest(string $term, array $columns, bool $prefix = false, int $limit = SearchQuery::MAX_RESULTS): Collection
+    {
+        return SearchQuery::applyLimited(TrdStructure::query(), $term, $columns, $prefix, $limit)->get();
+    }
+
     public function find(string $id): TrdStructure
     {
         return TrdStructure::query()->findOrFail($id);

@@ -57,6 +57,10 @@
                 Probar Validación de IP
             </button>
         </div>
+        {{-- Global Search --}}
+        <div class="flex-1 max-w-lg mx-auto px-4 hidden sm:flex">
+            <livewire:quick-search />
+        </div>
         <div class="flex items-center gap-4">
             <div class="hidden md:block text-right">
                 <div class="text-xs font-semibold text-white">{{ $user->name }}</div>
